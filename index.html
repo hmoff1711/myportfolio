@@ -181,6 +181,49 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
   filter: brightness(.98);
 }
 </style>
+<style>
+/* === UX polish pack === */
+/* Buttons: responsive sizing */
+@media (max-width: 640px){
+  #contact .button-row a { width: 100%; }
+}
+@media (min-width: 1024px){
+  #contact .button-row a { width: 240px; }
+}
+
+/* Accessible focus ring */
+#contact .button-row a:focus-visible,
+#contact button:focus-visible {
+  outline: 3px solid rgba(34,197,94,.6); /* emerald ring */
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  #contact .button-row a,
+  #contact .button-row a:hover { 
+    transition: none !important; 
+    transform: none !important; 
+  }
+}
+
+/* Send button loader */
+#contact .send-btn.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: .9;
+}
+#contact .send-btn.loading::after{
+  content: "";
+  position: absolute;
+  right: 12px; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid rgba(0,0,0,.2);
+  border-top-color: rgba(0,0,0,.6);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+</style>
 </head>
 <body>
 <div id="top"></div>
@@ -212,7 +255,7 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
         <a class="btn secondary" href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download CV</a>
       </div>
       <div class="social-circle">
-        <a aria-label="LinkedIn" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener">in</a>
+        <a aria-label="LinkedIn" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener" aria-label="Open LinkedIn profile" target="_blank" rel="noopener noreferrer">in</a>
         
       </div>
     </div>
@@ -433,8 +476,8 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
               <h2>Email</h2>
               <p><a href="mailto:hikmet2000.hg@gmail.com">hikmet2000.hg@gmail.com</a></p>
               <h2></h2>
-<div class="button-row"><a class="btn btn-linkedin" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener" class="contact-btn linkedin-btn">Open LinkedIn</a>
-              <a class="btn" style="margin-top:8px" href="cv/hikmat.vcf" download class="contact-btn vcard-btn">Download vCard</a></div>
+<div class="button-row"><a class="btn btn-linkedin" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener" class="contact-btn linkedin-btn" role="button">Open LinkedIn</a>
+              <a class="btn" style="margin-top:8px" href="cv/hikmat.vcf" download class="contact-btn vcard-btn" aria-label="Download contact vCard" download role="button">Download vCard</a></div>
             </div>
           </div>
         </div>
@@ -631,6 +674,23 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
     btn.style.float = 'none';
     wrap.appendChild(btn);
   });
+})();
+</script>
+
+
+<script>
+(function(){
+  var form = document.querySelector('#contact form, form[action^="https://airform.io/"]');
+  if(!form) return;
+  // mark the primary submit button
+  var btn = form.querySelector('button') || form.querySelector('input[type="submit"]');
+  if(btn){ btn.classList.add('send-btn'); }
+  form.addEventListener('submit', function(){
+    if(btn){
+      btn.classList.add('loading');
+      setTimeout(function(){ btn.classList.remove('loading'); }, 8000); // safety unlock
+    }
+  }, { passive: true });
 })();
 </script>
 
