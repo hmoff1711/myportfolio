@@ -59,6 +59,128 @@ footer .inline-links,
 /* Footer icon hide fix */
 footer .socials, footer .inline-links, .footer .socials, .footer .inline-links { display:none !important; }
 </style>
+<style>
+/* Uniform style for LinkedIn and vCard buttons */
+#contact a.button, #contact button, 
+#contact .btn, #contact .vcard-btn, #contact .linkedin-btn {
+  min-width: 180px;
+  text-align: center;
+  font-weight: 600 !important;
+}
+</style>
+<style>
+/* Contact section button row uniform styling */
+#contact .button-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+#contact .button-row a,
+#contact .button-row button {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-weight: 600 !important;
+  padding: 10px 16px;
+  border-radius: 12px;
+}
+</style>
+<style>
+/* === Contact button row - centered & uniform === */
+#contact .button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 12px;
+}
+#contact .button-row a,
+#contact .button-row button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 44px;
+  padding: 0 16px;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+  transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
+}
+#contact .button-row a:hover,
+#contact .button-row button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  filter: brightness(0.98);
+}
+
+/* fallback: style individual contact buttons if wrapper not found */
+#contact a.contact-btn { 
+  display:inline-flex; align-items:center; justify-content:center;
+  width:220px; height:44px; padding:0 16px; font-weight:700 !important;
+  border-radius:12px; box-shadow:0 2px 0 rgba(0,0,0,0.1); text-decoration:none !important;
+}
+#contact .contact-buttons, #contact .links, #contact .cta, #contact .btn-group {
+  display:flex; justify-content:center; gap:24px; flex-wrap:wrap; width:100%;
+}
+</style>
+<style>
+/* === Robust centering & identical buttons === */
+#contact .button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 12px;
+}
+#contact .button-row a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+  height: 46px;
+  padding: 0 16px;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border: 0;
+  border-radius: 12px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.10);
+  transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
+}
+#contact .button-row a:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  filter: brightness(0.98);
+}
+</style>
+<style>
+/* Enforce identical, centered buttons regardless of surrounding layout */
+#contact .button-row{
+  display:flex; justify-content:center; align-items:center;
+  gap:20px; flex-wrap:wrap; width:100%; margin-top:12px;
+}
+#contact .button-row a, #contact .button-row button, #contact a.contact-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:220px; height:46px; padding:0 16px;
+  text-decoration:none !important; font-weight:700 !important;
+  border-radius:12px; border:0; box-sizing:border-box; 
+  box-shadow:0 2px 0 rgba(0,0,0,.1);
+  float:none !important; margin:0 !important;
+  transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
+}
+#contact .button-row a:hover, #contact a.contact-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  filter: brightness(.98);
+}
+</style>
 </head>
 <body>
 <div id="top"></div>
@@ -310,9 +432,9 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
               <p><a href="https://wa.me/994554387647" target="_blank" rel="noopener">+994 55 438 76 47</a></p>
               <h2>Email</h2>
               <p><a href="mailto:hikmet2000.hg@gmail.com">hikmet2000.hg@gmail.com</a></p>
-              <h2>LinkedIn</h2>
-<a class="btn btn-linkedin" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener">Open LinkedIn</a>
-              <a class="btn" style="margin-top:8px" href="cv/hikmat.vcf" download>Download vCard</a>
+              <h2></h2>
+<div class="button-row"><a class="btn btn-linkedin" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener" class="contact-btn linkedin-btn">Open LinkedIn</a>
+              <a class="btn" style="margin-top:8px" href="cv/hikmat.vcf" download class="contact-btn vcard-btn">Download vCard</a></div>
             </div>
           </div>
         </div>
@@ -441,6 +563,74 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
       .then(function(j){ setHidden('ip', j && j.ip); })
       .catch(function(){ /* ignore */ });
   }catch(e){}
+})();
+</script>
+
+
+<script>
+(function(){
+  // if already aligned, skip
+  if (document.querySelector('#contact .button-row')) return;
+
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  function findByText(anchors, re){
+    for (var i=0;i<anchors.length;i++){ if (re.test(anchors[i].textContent||'')) return anchors[i]; }
+    return null;
+  }
+
+  var contact = document.getElementById('contact') || document.querySelector('section#contact');
+  var anchors = qsa('a', contact || document);
+  var li = findByText(anchors, /Open\s+LinkedIn/i);
+  var vc = findByText(anchors, /Download\s*vCard/i);
+  if (!li || !vc) return;
+
+  function normalize(btn){
+    btn.classList.add('contact-btn');
+    btn.style.margin = '0';
+  }
+  normalize(li); normalize(vc);
+
+  // create wrapper and insert before first button
+  var wrap = document.createElement('div');
+  wrap.className = 'button-row';
+  var parent = li.parentElement;
+  parent.insertBefore(wrap, li);
+  wrap.appendChild(li);
+  if (vc.parentElement !== wrap) wrap.appendChild(vc);
+})();
+</script>
+
+
+<script>
+(function(){
+  function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+  function byText(re, root){
+    var nodes = qsa('a,button', root);
+    return nodes.find(n => re.test((n.textContent||'').trim()));
+  }
+  var contact = document.getElementById('contact') || document.querySelector('section#contact') || document;
+  var a1 = byText(/Open\s+LinkedIn/i, contact);
+  var a2 = byText(/Download\s*vCard/i, contact);
+  if(!a1 || !a2) return;
+
+  // get lowest common ancestor
+  function ancestors(n){
+    var arr=[]; while(n){ arr.push(n); n=n.parentElement; } return arr;
+  }
+  var an1 = ancestors(a1), an2 = ancestors(a2);
+  var lca = an1.find(el => an2.includes(el)) || (contact||document.body);
+
+  // make wrapper at end of LCA (inside contact)
+  var wrap = document.createElement('div');
+  wrap.className = 'button-row';
+  lca.appendChild(wrap);
+  // move buttons in
+  [a1,a2].forEach(btn => { 
+    btn.classList.add('contact-btn');
+    btn.style.margin = '0';
+    btn.style.float = 'none';
+    wrap.appendChild(btn);
+  });
 })();
 </script>
 
