@@ -224,6 +224,16 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
 }
 @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
 </style>
+<style>
+/* Form validation styles & toast */
+#contact .field-error{ color:#fca5a5; font-size:.9rem; margin:6px 2px 0; }
+#contact .invalid{ outline:2px solid #fda4af; }
+#contact .toast{
+  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%);
+  background: #10b981; color:#06202b; padding: 10px 16px; border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25); z-index: 1000; font-weight: 600;
+}
+</style>
 </head>
 <body>
 <div id="top"></div>
@@ -461,11 +471,15 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
               <h2>Contact Me</h2>
               
 <form action="https://airform.io/hikmet2000.hg@gmail.com" method="post">
+  <input type="text" name="website" tabindex="-1" autocomplete="off" style="display:none">
+  <input type="hidden" name="_redirect" value="#contact-sent">
+
   <input type="hidden" name="from" value="Hikmat Portfolio Website">
   <input type="text" name="name" placeholder="Enter your name">
   <textarea name="message" placeholder="Enter your message"></textarea>
   <button>Send</button>
 </form>
+<div id="contact-status" aria-live="polite" style="margin-top:8px;"></div>
 
             </div>
             <div>
@@ -691,6 +705,50 @@ footer .socials, footer .inline-links, .footer .socials, .footer .inline-links {
       setTimeout(function(){ btn.classList.remove('loading'); }, 8000); // safety unlock
     }
   }, { passive: true });
+})();
+</script>
+
+
+<script>
+(function(){
+  var form = document.querySelector('#contact form, form[action^="https://airform.io/"]');
+  if(!form) return;
+
+  function err(el, msg){
+    el.classList.add('invalid');
+    var p = document.createElement('div');
+    p.className='field-error';
+    p.textContent = msg;
+    el.after(p);
+  }
+  function clearErrors(){
+    Array.from(form.querySelectorAll('.field-error')).forEach(e=>e.remove());
+    Array.from(form.querySelectorAll('.invalid')).forEach(e=>e.classList.remove('invalid'));
+  }
+
+  form.addEventListener('submit', function(e){
+    clearErrors();
+    var name = form.querySelector('input[name="name"]') || form.querySelector('input[type="text"]');
+    var msg  = form.querySelector('textarea[name="message"]');
+    var ok = true;
+    if(name && name.value.trim().length < 2){ ok=false; err(name,'Please enter your name (min 2 chars).'); }
+    if(msg && msg.value.trim().length < 10){ ok=false; err(msg,'Message is too short (min 10 chars).'); }
+    if(!ok){ e.preventDefault(); var st=document.getElementById('contact-status'); if(st){st.textContent='Please fix the highlighted fields.';} }
+  }, { passive:false });
+
+  // Success toast via hash (#contact-sent)
+  function showToast(){
+    var t = document.createElement('div');
+    t.className='toast'; t.textContent='✅ Message sent successfully!';
+    document.body.appendChild(t);
+    setTimeout(function(){ t.remove(); }, 3200);
+  }
+  if (location.hash === '#contact-sent'){
+    var st=document.getElementById('contact-status'); if(st){st.textContent='Thanks! I will get back to you.';}
+    showToast();
+    // clean hash without reloading
+    history.replaceState('', document.title, location.pathname + location.search);
+  }
 })();
 </script>
 
