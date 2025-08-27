@@ -175,3 +175,26 @@ h2.title{text-align:center;margin-bottom:28px;letter-spacing:.01em;font-size:28p
 
 /* Better anchor scroll spacing */
 #contact{scroll-margin-top:220px;padding-top:28px}
+
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h-mobile);}
+@media (min-width:768px){html{scroll-padding-top:var(--nav-h-desktop);}}
+[id]{scroll-margin-top:calc(var(--nav-h-mobile) + 8px);}
+@media (min-width:768px){[id]{scroll-margin-top:calc(var(--nav-h-desktop) + 8px);}}
+body{overflow-x:hidden;}
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}
+.skip-link:focus{left:16px;top:16px;width:auto;height:auto;background:#0a1428;color:#fff;padding:8px 12px;border-radius:8px;z-index:2000;}
+:focus-visible{outline:3px solid #2563eb;outline-offset:2px;}
+@media (max-width:640px){.section{padding-left:20px;padding-right:20px}}
+
+/* Contact form textarea — bounded, predictable behavior */
+.contact form textarea{
+  height: auto;
+  min-height: 120px;
+  max-height: 40vh !important; /* prevent infinite drag */
+  resize: vertical;
+  overflow: auto;
+  box-sizing: border-box;
+}
+@media (max-width: 640px){
+  .contact form textarea{ max-height: 50vh !important; }
+}

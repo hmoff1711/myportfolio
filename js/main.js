@@ -1,7 +1,13 @@
 
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-  const id=a.getAttribute('href'); if(id && id.length>1){ e.preventDefault(); document.querySelector(id).scrollIntoView({behavior:'smooth'}); }
+  const id=a.getAttribute('href'); if(id && id.length>1){ e.preventDefault(); const nav=document.querySelector('.navbar');
+const gap=8;
+const hh = nav ? nav.offsetHeight : 72;
+const el=document.querySelector(id);
+if(el){ const y=el.getBoundingClientRect().top + window.pageYOffset - hh - gap;
+window.scrollTo({top:y, behavior:'smooth'}); }
+}
 }));
 
 // Reveal on scroll

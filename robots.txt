@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hmoff1711.github.io/myportfolio/sitemap.xml
