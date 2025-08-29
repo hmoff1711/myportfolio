@@ -1,4 +1,14 @@
 
+/* === Sticky footer & layout guards === */
+html,body{overflow-x:hidden;contain:paint;height:100%;}
+body{min-height:100dvh;display:flex;flex-direction:column;}
+main#main{flex:1 0 auto;min-width:0;}
+#site-footer{overflow:clip;transform:none;flex-shrink:0;margin-top:0;}
+main#main > section:last-of-type{padding-bottom:16px;}
+.hero{position:relative;overflow:hidden;}
+.hero .wave.bottom{bottom:0;}
+
+
 :root{
   --emerald:#0f8a5f;
   --emerald-dark:#0b5d3b;
@@ -22,7 +32,8 @@ h2.title{text-align:center;margin-bottom:28px;letter-spacing:.01em;font-size:28p
 .navbar a{color:#fff;opacity:.92;font-weight:600}
 .navbar a:hover{opacity:1}
 #darkModeToggle{margin-right:16px;background:transparent;border:1px solid #ffffff66;color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer}
-.hero{position:relative;min-height:560px;color:#fff;margin-top:72px;}
+.hero{
+  padding-top:72px;position:relative;min-height:560px;color:#fff;margin-top:72px;}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(1200px 600px at 20% 0%, rgba(2,6,23,.45), transparent 60%), radial-gradient(1200px 600px at 80% 20%, rgba(2,6,23,.45), transparent 55%), linear-gradient(180deg, rgba(2,6,23,.2), rgba(2,6,23,.55));}
 .hero::after{content:'';position:absolute;inset:0;background:url('../images/noise.png');opacity:.06;mix-blend:multiply}
 .hero-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:72px 16px;text-align:center}
@@ -106,7 +117,7 @@ h2.title{text-align:center;margin-bottom:28px;letter-spacing:.01em;font-size:28p
 .timeline .left .logo{display:none}
 
 .hero{position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('../images/project-3.jpg') center/cover no-repeat fixed;filter:blur(6px) saturate(.95);transform:scale(1.06)}
+.hero-bg{position:absolute;inset:0;background:url('../images/project-3.jpg') center/cover no-repeat;filter:blur(6px) saturate(.95);transform:scale(1.06)}
 /* keep overlays on top of blurred bg */
 .hero::before, .hero::after{pointer-events:none}
 
@@ -197,4 +208,250 @@ body{overflow-x:hidden;}
 }
 @media (max-width: 640px){
   .contact form textarea{ max-height: 50vh !important; }
+}
+
+/* === Nav fixes === */
+.navbar .nav-links{ list-style:none; padding-left:0; margin:0; }
+.nav-toggle{ display:none; position:relative; width:40px; height:36px; margin-left:12px; border-radius:10px; border:1px solid rgba(255,255,255,.35); background:transparent; }
+.nav-toggle span, .nav-toggle::before, .nav-toggle::after{ content:""; position:absolute; left:8px; right:8px; height:2px; background:#fff; transition:transform .25s ease, top .25s ease, opacity .2s; }
+.nav-toggle span{ top:17px; }
+.nav-toggle::before{ top:11px; }
+.nav-toggle::after{ top:23px; }
+.nav-open .nav-toggle::before{ transform:translateY(6px) rotate(45deg); }
+.nav-open .nav-toggle::after{ transform:translateY(-6px) rotate(-45deg); }
+.nav-open .nav-toggle span{ opacity:0; }
+
+@media (max-width:1024px){
+  .nav-toggle{ display:inline-block; }
+  .navbar{ position:fixed; }
+  .navbar .nav-links{
+    position:absolute; top:100%; left:0; right:0;
+    display:flex; flex-direction:column; gap:12px;
+    background:linear-gradient(90deg, #0d8a5b, #0a7a52);
+    border-bottom-left-radius:12px; border-bottom-right-radius:12px;
+    box-shadow:0 10px 20px rgba(0,0,0,.25);
+    padding:0 16px; max-height:0; overflow:hidden; opacity:0; pointer-events:none;
+    transition:max-height .28s ease, opacity .22s ease;
+  }
+  .nav-open .navbar .nav-links{ padding:10px 16px; max-height:70vh; opacity:1; pointer-events:auto; }
+}
+
+/* Mobile overflow guard and image hygiene */
+*,*::before,*::after{ box-sizing:border-box; }
+img{ max-width:100%; height:auto; display:block; }
+.figure img{ width:100%; height:auto; object-fit:cover; }
+@media (max-width:768px){
+  html,body{ width:100%; max-width:100%; overflow-x:hidden; }
+  .section,.container,.hero{ width:100%; max-width:100%; }
+  #site-footer .footer-inner{ text-align:center; justify-content:center; }
+}
+
+
+/* === Mobile layout fixes (About, Education, Experience) === */
+*,*::before,*::after{box-sizing:border-box;}
+img{max-width:100%;height:auto;display:block;}
+@media (max-width: 900px){
+  html,body{max-width:100%;overflow-x:hidden;}
+  .container,.section,section{max-width:100%;width:100%;padding-left:16px;padding-right:16px;}
+  #about .card{max-width:100%;}
+  #about .card *{max-width:100%;overflow-wrap:anywhere;word-break:break-word;}
+  #education .item, #experience .item{display:block;border-radius:16px;overflow:hidden;}
+  #education .left,  #experience .left {border-radius:16px 16px 0 0 !important;}
+  #education .right, #experience .right{border-radius:0 0 16px 16px !important;border-left:0 !important;}
+}
+
+
+/* Experience readability on both themes */
+#experience .right{background:var(--card);color:var(--text);border:1px solid rgba(148,163,184,.18);}
+#experience .right *{color:inherit;}
+#experience .item{display:grid;grid-template-columns:120px 1fr;gap:0;border-radius:16px;overflow:hidden;}
+#experience .left{border-right:0;}
+@media (max-width:900px){
+  #experience .item{display:block;}
+}
+
+
+/* === Patch: wave/hero/mobile/footer/badge === */
+/* hero wave not to show black stripe and not overlap content */
+.hero{padding-bottom:clamp(48px,8vw,96px);}
+.hero .container,.hero .content{position:relative;z-index:2;}
+.hero .wave{z-index:1;}
+.hero .wave.bottom{bottom:-1px !important;}
+.wave path{opacity:1}
+
+/* contact/footer spacing — reduce top gap before footer */
+#site-footer{margin-top:16px !important;}
+main#main > section:last-of-type{padding-bottom:16px;}
+
+/* Current badge better contrast on dark */
+.badge{background:#e7fbf3;border-color:#b6e7d6;color:#065f46;}
+
+/* mobile hero text/buttons visibility */
+@media (max-width: 768px){
+  .hero{min-height:520px;}
+}
+
+/* footer copy keep on one line when possible */
+#site-footer .copy{white-space:nowrap;}
+@media (max-width: 390px){
+  #site-footer .copy{font-size:.95rem;white-space:normal;}
+}
+
+
+/* === Patch#6: wave striping, badge contrast, org text wrap, hero height, footer copy === */
+
+/* Remove wavy SVG stripe completely to avoid zoom shifts and overlap */
+.hero .wave{display:none !important;}
+
+/* Ensure hero content never sinks into the next section on small screens */
+@media (max-width: 768px){
+  .hero{min-height: 720px; padding-bottom: 120px;}
+  .hero .content, .hero .container{position:relative; z-index:2;}
+}
+
+/* Work Experience: long org names wrap and stay inside green block */
+#experience .left, #experience .left *{
+  overflow-wrap:anywhere; word-break:break-word; text-align:center;
+}
+
+/* 'Current' pill readable on dark */
+.badge, .current, .badge-current, .tag.current, .status-current{
+  background:#e6fff3 !important; color:#065f46 !important; border:1px solid #9fdcc9 !important;
+}
+
+/* Footer copy line stays neat */
+footer p{white-space:nowrap;}
+@media (max-width:420px){ footer p{white-space:normal;text-align:center;}}
+
+
+/* === Final patch: 25% gap, hero mobile, current chip, footer short text === */
+
+/* 1) Remove sticky-footer behavior to eliminate giant filler gap at 25% zoom */
+html,body{height:auto !important;min-height:0 !important;}
+body{display:block !important;}
+main#main{flex:none !important;min-height:0 !important;}
+#site-footer{flex-shrink:0 !important;margin-top:24px;}
+
+/* 2) Mobile hero: keep text + buttons above dark section */
+@media (max-width: 480px){
+  .hero{min-height:820px; padding-bottom:160px;}
+  .hero-content{padding-bottom:48px;}
+}
+
+/* 3) 'Current' pill visible in dark theme (class uses .chip) */
+.chip{background:#e6fff3 !important;color:#065f46 !important;border:1px solid #9fdcc9 !important;}
+
+/* 3b) Long org in Work Experience stays inside green area */
+#experience .left, #experience .left *{overflow-wrap:anywhere;word-break:break-word;}
+
+/* 4) Footer: short text on mobile */
+@media (max-width: 480px){
+  #site-footer p{font-size:0;position:relative;}
+  #site-footer p::after{content:"Crafted with ❤️  &  ☕";font-size:1rem;letter-spacing:.01em;}
+}
+
+
+/* === Patch#7 === */
+
+/* 1) Burger menu: ensure last item doesn't leave the rounded panel at extreme zoom.
+   Make it scroll within the viewport instead of overflowing. */
+.nav-open .navbar .nav-links{
+  height:auto !important;
+  max-height:calc(100vh - 160px) !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom:24px; /* breathing room above rounded bottom */
+}
+
+/* 2) Extra space at very bottom (25% zoom) — be strict about layout */
+html, body{margin:0!important;padding:0!important;height:auto!important;min-height:0!important;overflow-x:hidden;}
+section:last-of-type{margin-bottom:0!important;}
+#site-footer{margin-top:24px!important;padding-bottom:24px!important;}
+/* If any hidden spacers exist — neutralize */
+[id*="spacer"], [class*="spacer"]{height:0!important;min-height:0!important;margin:0!important;padding:0!important;}
+
+/* 3) Mobile footer short copy (force override) */
+@media (max-width:480px){
+  #site-footer p{font-size:0!important;white-space:normal!important;text-align:center!important;}
+  #site-footer p::after{content:"Crafted with ❤️ & ☕";font-size:1rem;}
+}
+
+/* 4) Long org name — keep readable */
+@media (max-width:480px){
+  #experience .left{font-size:0.95rem;line-height:1.15;letter-spacing:.2px;}
+  #experience .left br{display:none;}
+}
+
+/* Current badge — even stronger contrast */
+.chip{background:#eafff5!important;color:#034b3a!important;border:1px solid #7ad0b1!important;box-shadow:0 0 0 1px rgba(0,0,0,.03) inset;}
+
+
+/* === Fine-tune mobile nav (no visible scrollbar & padding at bottom to avoid clipping) === */
+@media (max-width:1024px){
+  .navbar .nav-links{
+    overflow:auto;
+    -ms-overflow-style: none;    /* IE/Edge */
+    scrollbar-width: none;       /* Firefox */
+    padding-bottom: 28px;        /* ensure last item doesn't clip behind rounded corner */
+  }
+  .navbar .nav-links::-webkit-scrollbar{ display:none; width:0; height:0; }
+}
+/* Improve large-zoom containment for the last item in the dropdown */
+@media (min-resolution: 1dppx){
+  .navbar .nav-links li:last-child{ margin-bottom: 6px; }
+}
+
+/* === Fix wave seam on scaled zoom by overextending width a little === */
+.wave, .wave.bottom{
+  left:-4px; right:-4px; width:calc(100% + 8px);
+  will-change: transform;
+}
+
+/* Current chip contrast */
+.badge, .chip, .current-badge{
+  display:inline-block; padding:3px 10px; border-radius:9999px;
+  background:#e8f7ee; color:#0d7d58; font-weight:600; font-size:0.9rem; line-height:1;
+  border:1px solid rgba(13,125,88,.15);
+}
+.dark .badge, .dark .chip, .dark .current-badge{
+  background:#e8f7ee; color:#075e43; border-color:rgba(13,125,88,.25);
+}
+
+/* Work Experience left label readability on narrow widths */
+.timeline .org, .experience .org, .job .org, .exp-card .org{
+  word-break: normal;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  line-height:1.1;
+  letter-spacing: -.15px;
+  font-size: clamp(11px, 2.8vw, 16px);
+}
+
+/* Keep hero CTA above divider on small screens */
+@media (max-width: 430px){
+  .hero-content{ position:relative; z-index:2; padding-bottom: 12vh; }
+  .hero .divider, .hero .wave.bottom{ z-index:1; }
+}
+
+/* Short footer copy on mobile */
+@media (max-width: 430px){
+  #site-footer .copy{ font-size:0; }
+  #site-footer .copy::before{ content: "Crafted with ❤️ & ☕"; font-size: 0.95rem; opacity:.9; }
+}
+
+/* --- Fix: tighten mobile menu vertical spacing --- */
+.mobile-nav__menu{margin-bottom:0; padding-bottom:0; max-height:calc(100dvh - 240px); overflow:auto;}
+.mobile-nav__footer{margin-top:12px; padding-top:8px; padding-bottom: env(safe-area-inset-bottom, 12px);}
+
+/* --- Fix: company stripe label size consistency --- */
+.job-card__company{font-size:clamp(11px,3.2vw,14px); line-height:1.1; letter-spacing:.06em;}
+@media (max-width: 420px){
+  .job-card__company{font-size:12px;}
+}
+
+/* --- Fix: reduce hero bottom gap on small screens --- */
+@media (max-width: 480px){
+  .hero{padding-bottom:24px;}
+  .hero .actions{margin-top:12px;}
+  .hero .social{margin-top:10px;}
 }

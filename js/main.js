@@ -48,3 +48,38 @@ const meterObs = new IntersectionObserver((entries)=>{
   });
 },{threshold:0.35});
 document.querySelectorAll('.skills .grid, #skills').forEach(s=>meterObs.observe(s));
+
+// burger toggle (safe)
+document.addEventListener('click', function(e){
+  var b = e.target.closest('.nav-toggle');
+  if(!b) return;
+  var exp = b.getAttribute('aria-expanded') === 'true';
+  b.setAttribute('aria-expanded', String(!exp));
+  document.documentElement.classList.toggle('nav-open', !exp);
+});
+function resetNav(){
+  if ((window.innerWidth||document.documentElement.clientWidth) > 1024){
+    document.documentElement.classList.remove('nav-open');
+  }
+}
+window.addEventListener('resize', resetNav);
+window.addEventListener('orientationchange', resetNav);
+
+// ---- Compact zoom-rare bottom gap fixer (desktop only) ----
+(function(){
+  const footer = document.querySelector('#site-footer');
+  if(!footer) return;
+  const applyFix = ()=>{
+    const doc = document.documentElement;
+    const rect = footer.getBoundingClientRect();
+    const footerBottom = rect.bottom + window.scrollY;
+    const gap = doc.scrollHeight - footerBottom;
+    if(gap > 50 && window.innerWidth >= 1024){
+      footer.style.marginTop = `calc(${getComputedStyle(footer).marginTop} - ${gap}px)`;
+    }else{
+      footer.style.marginTop = '';
+    }
+  };
+  ['load','resize','orientationchange'].forEach(ev=>window.addEventListener(ev, applyFix));
+  setTimeout(applyFix, 0);
+})();
