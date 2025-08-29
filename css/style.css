@@ -1,10 +1,10 @@
 
 /* === Sticky footer & layout guards === */
-html,body{overflow-x:hidden;contain:paint;height:100%;}
+html,body{height:100%;}
 body{min-height:100dvh;display:flex;flex-direction:column;}
 main#main{flex:1 0 auto;min-width:0;}
-#site-footer{overflow:clip;transform:none;flex-shrink:0;margin-top:0;}
-main#main > section:last-of-type{padding-bottom:16px;}
+#site-footer{flex-shrink:0;margin-top:0;}
+main#main > section:last-of-type{margin-bottom:0;padding-bottom:0;}
 .hero{position:relative;overflow:hidden;}
 .hero .wave.bottom{bottom:0;}
 
@@ -281,7 +281,7 @@ img{max-width:100%;height:auto;display:block;}
 
 /* contact/footer spacing — reduce top gap before footer */
 #site-footer{margin-top:16px !important;}
-main#main > section:last-of-type{padding-bottom:16px;}
+main#main > section:last-of-type{padding-bottom:24px;margin-bottom:0;}
 
 /* Current badge better contrast on dark */
 .badge{background:#e7fbf3;border-color:#b6e7d6;color:#065f46;}
@@ -437,21 +437,4 @@ section:last-of-type{margin-bottom:0!important;}
 @media (max-width: 430px){
   #site-footer .copy{ font-size:0; }
   #site-footer .copy::before{ content: "Crafted with ❤️ & ☕"; font-size: 0.95rem; opacity:.9; }
-}
-
-/* --- Fix: tighten mobile menu vertical spacing --- */
-.mobile-nav__menu{margin-bottom:0; padding-bottom:0; max-height:calc(100dvh - 240px); overflow:auto;}
-.mobile-nav__footer{margin-top:12px; padding-top:8px; padding-bottom: env(safe-area-inset-bottom, 12px);}
-
-/* --- Fix: company stripe label size consistency --- */
-.job-card__company{font-size:clamp(11px,3.2vw,14px); line-height:1.1; letter-spacing:.06em;}
-@media (max-width: 420px){
-  .job-card__company{font-size:12px;}
-}
-
-/* --- Fix: reduce hero bottom gap on small screens --- */
-@media (max-width: 480px){
-  .hero{padding-bottom:24px;}
-  .hero .actions{margin-top:12px;}
-  .hero .social{margin-top:10px;}
 }
