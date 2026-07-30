@@ -2,19 +2,103 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Portfolio of Hikmat Mahammadov, a Systems Administrator and IT Infrastructure Support professional with 5+ years of experience in L1/L2 support, Windows infrastructure, Microsoft 365, Dell EMC Isilon / OneFS and Windows deployment.">
-  <meta name="theme-color" content="#087a56">
+  <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Hikmat Mahammadov — Systems Administrator and IT Infrastructure Support specialist with 5+ years of experience across Windows infrastructure, Microsoft 365, OneFS storage, endpoint deployment and L1/L2 support.">
+  <meta name="author" content="Hikmat Mahammadov">
+  <meta name="theme-color" content="#075d45">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="Hikmat Mahammadov — Portfolio">
   <meta property="og:title" content="Hikmat Mahammadov — Systems Administrator | IT Infrastructure Support">
-  <meta property="og:description" content="Windows infrastructure, Active Directory, Group Policy, Microsoft 365, OneFS and endpoint deployment support.">
+  <meta property="og:description" content="Windows infrastructure, Microsoft 365, OneFS storage, endpoint deployment and evidence-based L1/L2 troubleshooting.">
   <meta property="og:url" content="https://hmoff1711.github.io/myportfolio/">
   <meta property="og:image" content="https://hmoff1711.github.io/myportfolio/images/cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Hikmat Mahammadov — Systems Administrator and IT Infrastructure Support">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hikmat Mahammadov — Systems Administrator | IT Infrastructure Support">
+  <meta name="twitter:description" content="Windows infrastructure, Microsoft 365, OneFS storage, endpoint deployment and evidence-based L1/L2 troubleshooting.">
+  <meta name="twitter:image" content="https://hmoff1711.github.io/myportfolio/images/cover.jpg">
+
   <link rel="canonical" href="https://hmoff1711.github.io/myportfolio/">
-  <link rel="icon" href="favicon.png">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preload" href="images/anthony.jpg" as="image" type="image/jpeg" fetchpriority="high">
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      root.classList.add("js");
+
+      try {
+        const savedTheme = localStorage.getItem("portfolio-theme");
+        const theme = savedTheme === "dark" || savedTheme === "light"
+          ? savedTheme
+          : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        root.dataset.theme = theme;
+      } catch {
+        root.dataset.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+
+      /*
+       * Safari's "Request Desktop Website" changes the iPhone user agent but
+       * continues to honor a responsive device-width viewport. A phone-sized,
+       * touch-capable Apple device presenting a Macintosh user agent is treated
+       * as an explicit desktop request. The fixed layout viewport is applied
+       * before CSS loads, so desktop breakpoints are evaluated consistently.
+       */
+      const userAgent = navigator.userAgent;
+      const desktopAppleUserAgent = /Macintosh/.test(userAgent);
+      const phoneSizedTouchDevice =
+        navigator.maxTouchPoints > 1 &&
+        Math.min(window.screen.width, window.screen.height) < 600;
+
+      if (desktopAppleUserAgent && phoneSizedTouchDevice) {
+        document.querySelector("#viewport-meta").setAttribute("content", "width=1180");
+        root.dataset.layout = "desktop-request";
+      }
+    })();
+  </script>
+
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.classList.add("js");</script>
   <script src="js/main.js" defer></script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Hikmat Mahammadov",
+      "url": "https://hmoff1711.github.io/myportfolio/",
+      "image": "https://hmoff1711.github.io/myportfolio/images/anthony.jpg",
+      "jobTitle": "Systems Administrator | IT Infrastructure Support",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Baku",
+        "addressCountry": "AZ"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/hmoff1711/",
+        "https://github.com/hmoff1711"
+      ],
+      "knowsAbout": [
+        "Windows Server",
+        "Active Directory",
+        "Group Policy",
+        "Microsoft 365",
+        "Dell EMC Isilon",
+        "OneFS",
+        "WDS",
+        "MDT",
+        "L1/L2 IT Support"
+      ]
+    }
+  </script>
+
   <title>Hikmat Mahammadov — Systems Administrator | IT Infrastructure Support</title>
 </head>
 <body>
@@ -49,38 +133,46 @@
 
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-pattern" aria-hidden="true"></div>
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Baku, Azerbaijan · Open to relocation</p>
+          <p class="eyebrow">5+ years in IT support &amp; infrastructure</p>
           <h1 id="hero-title">Hikmat Mahammadov</h1>
           <p class="hero-role">
-            <span class="role-part">Systems Administrator</span>
+            <span>Systems Administrator</span>
             <span class="role-separator" aria-hidden="true">|</span>
-            <span class="role-part">IT Infrastructure Support</span>
+            <span>IT Infrastructure Support</span>
           </p>
           <p class="hero-lead">
-            5+ years of experience supporting users, endpoints and infrastructure in newsroom and education
-            environments, with a focus on Windows services, Microsoft 365, OneFS and reliable L1/L2 troubleshooting.
+            Windows-centered infrastructure support across identity, Microsoft 365, OneFS storage,
+            endpoint deployment and complex L1/L2 incidents.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="https://wa.me/994554387647" target="_blank" rel="noopener noreferrer">Message on WhatsApp</a>
-            <a class="button button-secondary" href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download CV</a>
+            <a class="button button-primary" href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download CV</a>
+            <a class="button button-secondary" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener noreferrer">View LinkedIn</a>
           </div>
-          <a class="text-link hero-link" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener noreferrer">
-            View LinkedIn profile <span aria-hidden="true">↗</span>
+          <a class="text-link hero-link" href="#contact">
+            Contact details <span aria-hidden="true">↓</span>
           </a>
         </div>
 
-        <aside class="profile-card reveal" aria-label="Professional profile">
-          <img class="profile-photo" src="images/anthony.jpg" alt="Portrait of Hikmat Mahammadov" width="220" height="220">
-          <div>
-            <p class="profile-status"><span aria-hidden="true"></span> Open to relevant opportunities</p>
-            <p>Systems Administration</p>
-            <p>Infrastructure Support</p>
-            <p>L2 IT Support</p>
+        <figure class="hero-profile reveal">
+          <div class="hero-photo-frame">
+            <img
+              class="profile-photo"
+              src="images/anthony.jpg"
+              alt="Hikmat Mahammadov in a server room"
+              width="900"
+              height="900"
+              decoding="async"
+              fetchpriority="high"
+            >
           </div>
-        </aside>
+          <figcaption>
+            <strong>Baku, Azerbaijan</strong>
+            <span><i aria-hidden="true"></i> Open to relocation</span>
+          </figcaption>
+        </figure>
       </div>
     </section>
 
@@ -94,44 +186,24 @@
         <div class="about-grid">
           <article class="card about-copy reveal">
             <p class="lead">
-              I am a Systems Administrator and IT Infrastructure Support professional focused on practical,
-              well-documented support across Windows infrastructure, identity services, endpoints and business applications.
+              I support the operational layer between users, endpoints, identity, storage and the
+              business services that depend on them.
             </p>
             <p>
-              My day-to-day work includes Active Directory, Group Policy, DNS, DHCP, Microsoft 365, Dell EMC
-              Isilon / OneFS and Windows deployment with Sysprep, WDS and MDT. I also have hands-on experience
-              with Proxmox, VMware ESXi, OpenVPN, Nextcloud and UVDesk.
-            </p>
-            <p>
-              I approach incidents by separating symptoms from likely causes, validating each layer and recording
-              enough evidence for a safe resolution or an effective escalation.
+              My background combines hands-on L1/L2 support with Windows-centered infrastructure
+              administration in newsroom and education environments. I am most effective when an incident
+              crosses several layers and the first task is to establish where the fault actually sits.
             </p>
           </article>
 
-          <aside class="card facts-card reveal" aria-labelledby="facts-title">
-            <h3 id="facts-title">Basic Information</h3>
-            <dl class="facts-list">
-              <div>
-                <dt>Location</dt>
-                <dd>Baku, Azerbaijan</dd>
-              </div>
-              <div>
-                <dt>Mobility</dt>
-                <dd>Open to relocation</dd>
-              </div>
-              <div>
-                <dt>Languages</dt>
-                <dd>Azerbaijani — Native<br>Russian — Native<br>English — A2</dd>
-              </div>
-              <div>
-                <dt>Email</dt>
-                <dd><a href="mailto:hikmet2000.hg@gmail.com">hikmet2000.hg@gmail.com</a></dd>
-              </div>
-              <div>
-                <dt>Phone</dt>
-                <dd><a href="tel:+994554387647">+994&nbsp;55&nbsp;438&nbsp;76&nbsp;47</a></dd>
-              </div>
-            </dl>
+          <aside class="card method-card reveal" aria-labelledby="method-title">
+            <h3 id="method-title">Operational approach</h3>
+            <ol class="method-list">
+              <li><strong>Scope</strong><span>Reproduce the issue and identify the affected users, systems and dependencies.</span></li>
+              <li><strong>Inspect</strong><span>Compare configuration, logs, permissions and behavior across working and failing paths.</span></li>
+              <li><strong>Change</strong><span>Apply the smallest controlled correction with a clear rollback path.</span></li>
+              <li><strong>Verify</strong><span>Retest the original scenario and record evidence for closure or escalation.</span></li>
+            </ol>
           </aside>
         </div>
       </div>
@@ -140,16 +212,15 @@
     <section class="section section-tinted" id="skills" aria-labelledby="skills-title">
       <div class="container">
         <div class="section-heading reveal">
-          <p class="section-kicker">Technical focus</p>
+          <p class="section-kicker">Technical scope</p>
           <h2 id="skills-title">Professional Skills</h2>
-          <p>Core production skills are separated from additional platforms and laboratory practice.</p>
         </div>
 
         <div class="skill-grid">
           <article class="card skill-card reveal">
             <span class="card-index" aria-hidden="true">01</span>
-            <h3>Windows &amp; Identity</h3>
-            <ul class="tag-list" aria-label="Windows and identity skills">
+            <h3>Windows Infrastructure</h3>
+            <ul class="tag-list" aria-label="Windows infrastructure skills">
               <li>Windows Server</li>
               <li>Active Directory</li>
               <li>Group Policy</li>
@@ -160,62 +231,43 @@
 
           <article class="card skill-card reveal">
             <span class="card-index" aria-hidden="true">02</span>
-            <h3>Microsoft 365 &amp; L1/L2 Support</h3>
+            <h3>Microsoft 365 &amp; Support</h3>
             <ul class="tag-list" aria-label="Microsoft 365 and support skills">
+              <li>Administration</li>
               <li>Licensing &amp; activation</li>
-              <li>Outlook profiles</li>
-              <li>Authentication</li>
-              <li>Synchronization</li>
+              <li>Outlook &amp; authentication</li>
               <li>Mail delivery</li>
               <li>User &amp; endpoint support</li>
+              <li>L1/L2 troubleshooting</li>
             </ul>
           </article>
 
           <article class="card skill-card reveal">
             <span class="card-index" aria-hidden="true">03</span>
-            <h3>Endpoint Deployment</h3>
-            <ul class="tag-list" aria-label="Endpoint deployment skills">
+            <h3>Storage &amp; Deployment</h3>
+            <ul class="tag-list" aria-label="Storage and deployment skills">
+              <li>Dell EMC Isilon / OneFS</li>
+              <li>SMB shares &amp; ACLs</li>
+              <li>Snapshots &amp; capacity</li>
               <li>Sysprep</li>
-              <li>WDS</li>
-              <li>MDT</li>
-              <li>PXE</li>
-              <li>WinPE</li>
-              <li>Task sequences</li>
+              <li>WDS &amp; MDT</li>
+              <li>PXE &amp; WinPE</li>
             </ul>
           </article>
 
           <article class="card skill-card reveal">
             <span class="card-index" aria-hidden="true">04</span>
-            <h3>Storage &amp; Virtualization</h3>
-            <ul class="tag-list" aria-label="Storage and virtualization skills">
-              <li>Dell EMC Isilon / OneFS</li>
-              <li>SMB shares &amp; ACLs</li>
-              <li>Snapshots &amp; capacity</li>
+            <h3>Infrastructure Platforms</h3>
+            <ul class="tag-list" aria-label="Additional infrastructure platforms">
               <li>Proxmox</li>
               <li>VMware ESXi</li>
+              <li>Ubuntu / Linux services</li>
+              <li>ProFTPD / SFTP</li>
+              <li>OpenVPN</li>
+              <li>Nextcloud</li>
+              <li>UVDesk</li>
+              <li>iperf3</li>
             </ul>
-          </article>
-
-          <article class="card skill-card skill-card-wide reveal">
-            <span class="card-index" aria-hidden="true">05</span>
-            <h3>Additional Platforms &amp; Lab Practice</h3>
-            <div class="skill-split">
-              <div>
-                <h4>Hands-on platforms</h4>
-                <ul class="tag-list">
-                  <li>OpenVPN</li>
-                  <li>Nextcloud</li>
-                  <li>UVDesk</li>
-                </ul>
-              </div>
-              <div>
-                <h4>Laboratory practice</h4>
-                <ul class="tag-list tag-list-lab">
-                  <li>Cisco routing &amp; switching — lab</li>
-                  <li>Palo Alto Networks firewalls — lab</li>
-                </ul>
-              </div>
-            </div>
           </article>
         </div>
       </div>
@@ -224,80 +276,143 @@
     <section class="section" id="work" aria-labelledby="work-title">
       <div class="container">
         <div class="section-heading reveal">
-          <p class="section-kicker">Practical examples</p>
+          <p class="section-kicker">Case studies</p>
           <h2 id="work-title">Selected Infrastructure Work</h2>
-          <p>Examples are based on documented work and omit confidential infrastructure details.</p>
+          <p>Cases where the main task was to find the fault boundary, control the change and verify the outcome.</p>
         </div>
 
-        <div class="work-grid">
-          <article class="card work-card reveal">
-            <div class="work-label">AD / GPO</div>
-            <h3>Windows identity and policy support</h3>
-            <p>
-              Administered user, computer and service accounts, group membership, DNS and DHCP, and
-              troubleshot Group Policy processing as part of day-to-day Windows infrastructure support.
-            </p>
-            <ul class="compact-list">
-              <li>Identity and group membership checks</li>
-              <li>GPO troubleshooting</li>
-              <li>DNS and DHCP support</li>
-            </ul>
+        <div class="case-list">
+          <article class="card case-study reveal">
+            <header class="case-header">
+              <div>
+                <p class="case-number">Case 01 · Storage &amp; access control</p>
+                <h3>OneFS SMB permissions for protected media folders</h3>
+              </div>
+              <p class="case-environment">OneFS 9.x · SMB · NTFS-style ACLs · Protocol Audit</p>
+            </header>
+            <div class="case-grid">
+              <section>
+                <h4>Context</h4>
+                <p>
+                  A media workflow required users to read, copy and create files in protected folders without
+                  being able to modify, delete, rename or change permissions. Other folders had to remain fully writable.
+                </p>
+              </section>
+              <section>
+                <h4>Investigation &amp; change</h4>
+                <ul>
+                  <li>Inspected recursive ownership and ACL data with <code>isi get -DD</code>.</li>
+                  <li>Correlated SMB operations with <code>isi_audit_viewer</code> protocol-audit records.</li>
+                  <li>Aligned owner, group and inherited ACLs while keeping <code>delete_child</code> away from the protected root.</li>
+                  <li>Applied the corrected model through OneFS PermissionRepair.</li>
+                </ul>
+              </section>
+              <section class="case-outcome">
+                <h4>Outcome</h4>
+                <p>
+                  PermissionRepair completed successfully. Restricted, full-access and administrative test paths
+                  behaved as intended, and the top-level folder structure remained protected.
+                </p>
+              </section>
+            </div>
           </article>
 
-          <article class="card work-card reveal">
-            <div class="work-label">Microsoft 365</div>
-            <h3>User access and application incidents</h3>
-            <p>
-              Resolved Microsoft 365 incidents involving licensing, activation, Outlook profiles,
-              authentication, synchronization, file associations, add-ins and mail delivery.
-            </p>
-            <ul class="compact-list">
-              <li>Account and activation checks</li>
-              <li>Outlook profile troubleshooting</li>
-              <li>Client and mail-flow validation</li>
-            </ul>
+          <article class="card case-study reveal">
+            <header class="case-header">
+              <div>
+                <p class="case-number">Case 02 · Linux file transfer</p>
+                <h3>ProFTPD SFTP hardening and throughput diagnosis</h3>
+              </div>
+              <p class="case-environment">Ubuntu 24.04 · ProFTPD / mod_sftp · FileZilla · iperf3</p>
+            </header>
+            <div class="case-grid">
+              <section>
+                <h4>Context</h4>
+                <p>
+                  SFTP transfers fell to roughly 1.5–3 Mbit/s during business hours but reached 90–97 Mbit/s
+                  in the evening. The priority was to separate a server problem from a network-path issue.
+                </p>
+              </section>
+              <section>
+                <h4>Investigation &amp; change</h4>
+                <ul>
+                  <li>Validated mod_sftp loading, host keys, chroot boundaries, setgid directories and <code>Umask 007</code>.</li>
+                  <li>Disabled the OpenSSH SFTP subsystem so only ProFTPD handled SFTP sessions.</li>
+                  <li>Confirmed that no ProFTPD rate, quota or shaping rule explained the pattern.</li>
+                  <li>Compared ports, time windows, iperf3 throughput and RDP behavior.</li>
+                </ul>
+              </section>
+              <section class="case-outcome">
+                <h4>Outcome</h4>
+                <p>
+                  Authentication, uploads and chroot isolation passed validation. iperf3 and RDP degraded in the
+                  same daytime window, moving the investigation from ProFTPD to the network path, QoS and provider track.
+                </p>
+              </section>
+            </div>
           </article>
 
-          <article class="card work-card reveal">
-            <div class="work-label">OneFS</div>
-            <h3>Group-based SMB permissions</h3>
+          <article class="card case-study reveal">
+            <header class="case-header">
+              <div>
+                <p class="case-number">Case 03 · AD endpoint management</p>
+                <h3>Remote Access Plus HTTPS hardening and GPO pilot</h3>
+              </div>
+              <p class="case-environment">Active Directory · Remote Access Plus · HTTPS/TLS · GPO / SYSVOL</p>
+            </header>
+            <div class="case-grid">
+              <section>
+                <h4>Context</h4>
+                <p>
+                  A domain-wide agent rollout needed a secure management path and a verified unattended installer
+                  before deployment beyond the pilot group.
+                </p>
+              </section>
+              <section>
+                <h4>Investigation &amp; change</h4>
+                <ul>
+                  <li>Moved web administration to HTTPS 443 and closed the previous management port.</li>
+                  <li>Verified the certificate and trust chain from a domain workstation.</li>
+                  <li>Confirmed startup-GPO targeting and package availability in SYSVOL on the pilot computer.</li>
+                  <li>Held the wider rollout until the vendor <code>setup.bat</code> could be proven unattended.</li>
+                </ul>
+              </section>
+              <section class="case-outcome">
+                <h4>Outcome</h4>
+                <p>
+                  The secure access path, certificate trust and pilot GPO checks passed. The rollout remained
+                  deliberately gated rather than treating an unverified installer as production-ready.
+                </p>
+              </section>
+            </div>
+          </article>
+        </div>
+
+        <div class="incident-heading reveal">
+          <p class="section-kicker">Focused resolutions</p>
+          <h3>Two shorter L1/L2 incidents</h3>
+        </div>
+
+        <div class="incident-grid">
+          <article class="card incident-card reveal">
+            <p class="incident-label">Windows · SMB · Credential Manager</p>
+            <h3>SMB client reused the wrong saved identity</h3>
             <p>
-              Reworked and validated group-based access to Dell EMC Isilon / OneFS SMB resources through
-              ACL and ownership normalization while supporting shares, snapshots, capacity and user access.
+              Clearing mappings, SMB sessions, Kerberos tickets and the Workstation service did not restore
+              the credential prompt. <code>Get-SmbConnection</code> identified the account in use; removing only
+              the affected <code>cmdkey</code> target restored the prompt and isolated the cause from OneFS permissions.
             </p>
-            <ul class="compact-list">
-              <li>ACL and ownership review</li>
-              <li>Group-based permission alignment</li>
-              <li>User access validation</li>
-            </ul>
           </article>
 
-          <article class="card work-card reveal">
-            <div class="work-label">WDS / MDT</div>
-            <h3>Windows deployment support</h3>
+          <article class="card incident-card reveal">
+            <p class="incident-label">HP MFP · Microsoft 365 · SMTP</p>
+            <h3>Scan-to-email failed before SMTP authentication</h3>
             <p>
-              Supported Windows deployment through WDS, MDT, PXE and WinPE, including boot images,
-              task sequences and troubleshooting client deployment failures.
+              Two identical HP LaserJet Enterprise MFP M528 devices were compared against
+              <code>smtp.office365.com:587</code>. The failing device had no DNS server configured, so it could
+              not resolve the SMTP hostname. DNS was corrected without attributing the fault to Microsoft 365 settings;
+              final mail delivery remained a separate validation step.
             </p>
-            <ul class="compact-list">
-              <li>PXE and WinPE troubleshooting</li>
-              <li>Boot image support</li>
-              <li>Task sequence validation</li>
-            </ul>
-          </article>
-
-          <article class="card work-card work-card-featured reveal">
-            <div class="work-label">L1/L2 Incident</div>
-            <h3>SFTP throughput investigation</h3>
-            <p>
-              Investigated degraded SFTP throughput with iperf3, time-of-day comparison and cross-service
-              testing. The collected evidence pointed to the network path rather than the file-transfer server.
-            </p>
-            <ul class="compact-list">
-              <li>Performance comparison across time windows</li>
-              <li>Independent throughput testing with iperf3</li>
-              <li>Evidence-based escalation direction</li>
-            </ul>
           </article>
         </div>
       </div>
@@ -310,59 +425,50 @@
           <h2 id="experience-title">Professional Experience</h2>
         </div>
 
-        <div class="timeline">
-          <article class="timeline-item reveal">
-            <div class="timeline-marker" aria-hidden="true"></div>
-            <div class="card timeline-card">
-              <div class="role-heading">
-                <div>
-                  <p class="company">AZERTAC News Agency</p>
-                  <h3>Information Technology Staff <span>| Systems &amp; Network Administration</span></h3>
-                </div>
-                <time datetime="2024-05">May 2024 — Present</time>
-              </div>
+        <div class="experience-list">
+          <article class="experience-item reveal">
+            <div class="experience-meta">
+              <time datetime="2024-05">May 2024 — Present</time>
+              <p>AZERTAC News Agency</p>
+            </div>
+            <div class="card experience-card">
+              <h3>Information Technology Staff <span>| Systems &amp; Network Administration</span></h3>
               <ul>
-                <li>Administer Windows infrastructure services, including Active Directory accounts, group membership, DNS, DHCP and Group Policy troubleshooting.</li>
-                <li>Administer Microsoft 365 and resolve licensing, activation, Outlook, authentication, synchronization and mail-delivery issues.</li>
-                <li>Manage Dell EMC Isilon / OneFS shares, permissions, ACLs, snapshots, storage capacity and user access.</li>
-                <li>Support Windows deployment through WDS, MDT, PXE and WinPE, including boot images, task sequences and client troubleshooting.</li>
-                <li>Investigated SFTP throughput degradation with iperf3 and comparative testing, isolating the likely issue to the network path.</li>
+                <li>Support and administer Active Directory accounts and groups, Group Policy, DNS and DHCP in a Windows environment.</li>
+                <li>Handle Microsoft 365 administration and incidents involving licensing, activation, Outlook, authentication, synchronization and mail delivery.</li>
+                <li>Operate Dell EMC Isilon / OneFS SMB resources, including shares, ACLs, snapshots, capacity and user access.</li>
+                <li>Support Windows deployment through WDS, MDT, PXE and WinPE, including boot images, task sequences and client-side failures.</li>
+                <li>Resolve L1/L2 incidents across endpoints, access, file transfer, printing and business applications.</li>
               </ul>
             </div>
           </article>
 
-          <article class="timeline-item reveal">
-            <div class="timeline-marker" aria-hidden="true"></div>
-            <div class="card timeline-card">
-              <div class="role-heading">
-                <div>
-                  <p class="company">STEP IT Academy Azerbaijan</p>
-                  <h3>Information Technology Specialist</h3>
-                </div>
-                <time datetime="2022-10">Oct 2022 — May 2024</time>
-              </div>
+          <article class="experience-item reveal">
+            <div class="experience-meta">
+              <time datetime="2022-10">Oct 2022 — May 2024</time>
+              <p>STEP IT Academy Azerbaijan</p>
+            </div>
+            <div class="card experience-card">
+              <h3>Information Technology Specialist</h3>
               <ul>
                 <li>Supported computer labs, endpoint devices, peripherals and users in an on-site education environment.</li>
-                <li>Deployed software, onboarded users and resolved LAN, hardware and software incidents.</li>
+                <li>Deployed software, onboarded users and resolved LAN, hardware and application incidents.</li>
               </ul>
             </div>
           </article>
 
-          <article class="timeline-item reveal">
-            <div class="timeline-marker" aria-hidden="true"></div>
-            <div class="card timeline-card">
-              <div class="role-heading">
-                <div>
-                  <p class="company">AZERTAC News Agency</p>
-                  <h3>Information Technology Staff <span>| Systems &amp; Network Administration</span></h3>
-                </div>
-                <time datetime="2021-06">Jun 2021 — Oct 2022</time>
-              </div>
+          <article class="experience-item reveal">
+            <div class="experience-meta">
+              <time datetime="2021-06">Jun 2021 — Oct 2022</time>
+              <p>AZERTAC News Agency</p>
+            </div>
+            <div class="card experience-card">
+              <h3>Information Technology Staff <span>| Systems &amp; Network Administration</span></h3>
               <ul>
-                <li>Supported IT infrastructure operations and endpoint provisioning in a newsroom environment.</li>
-                <li>Supported Proxmox and VMware ESXi; maintained Dell EMC Isilon NAS and Hikvision NVR systems.</li>
-                <li>Deployed UVDesk, OpenVPN, Zabbix, Wazuh SIEM and Nextcloud.</li>
-                <li>Prepared Windows 10 endpoints using a Sysprep image.</li>
+                <li>Supported infrastructure operations and endpoint provisioning in a newsroom environment.</li>
+                <li>Worked with Proxmox, VMware ESXi, Dell EMC Isilon storage and Hikvision NVR systems.</li>
+                <li>Deployed and supported UVDesk, OpenVPN, Nextcloud, Zabbix and Wazuh.</li>
+                <li>Prepared Windows 10 endpoints from a Sysprep image.</li>
               </ul>
             </div>
           </article>
@@ -391,14 +497,13 @@
           </article>
 
           <article class="card education-card education-card-wide reveal">
-            <p class="education-date">Professional training</p>
-            <h3>Technical Coursework</h3>
+            <p class="education-date">Coursework</p>
+            <h3>Technical Training</h3>
             <ul class="training-list">
-              <li>Cisco Routing &amp; Switching (CCNA 1–4)</li>
-              <li>Network Security (CCNA Security)</li>
-              <li>Linux Administration (NDG Linux Essentials)</li>
+              <li>Cisco routing &amp; switching labs — CCNA 1–4 curriculum</li>
+              <li>Network security labs — CCNA Security curriculum</li>
+              <li>Linux administration — NDG Linux Essentials</li>
             </ul>
-            <p class="training-note">Cisco and Palo Alto technologies are represented as laboratory practice, not production administration.</p>
           </article>
         </div>
       </div>
@@ -413,21 +518,20 @@
         </div>
 
         <div class="contact-grid">
-          <form class="contact-form reveal" action="https://airform.io/hikmet2000.hg@gmail.com" method="post">
+          <form class="contact-form reveal" action="https://airform.io/hikmet2000.hg@gmail.com" method="post" accept-charset="UTF-8">
             <div class="field">
               <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required>
+              <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required>
             </div>
             <div class="field">
               <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required>
+              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required>
             </div>
             <div class="field">
               <label for="message">Message</label>
-              <textarea id="message" name="message" rows="6" required></textarea>
+              <textarea id="message" name="message" rows="6" maxlength="3000" required></textarea>
             </div>
-            <button class="button button-light" type="submit">Send Message</button>
-            <p class="form-note">The form sends only the information entered above.</p>
+            <button class="button button-light" type="submit" data-default-label="Send message">Send message</button>
           </form>
 
           <aside class="contact-card reveal" aria-label="Direct contact details">
@@ -438,16 +542,24 @@
                 <a href="mailto:hikmet2000.hg@gmail.com">hikmet2000.hg@gmail.com</a>
               </li>
               <li>
-                <span>Phone / WhatsApp</span>
-                <a href="https://wa.me/994554387647" target="_blank" rel="noopener noreferrer">+994&nbsp;55&nbsp;438&nbsp;76&nbsp;47</a>
+                <span>Phone</span>
+                <a href="tel:+994554387647">+994&nbsp;55&nbsp;438&nbsp;76&nbsp;47</a>
+              </li>
+              <li>
+                <span>WhatsApp</span>
+                <a href="https://wa.me/994554387647" target="_blank" rel="noopener noreferrer">Open conversation <span aria-hidden="true">↗</span></a>
               </li>
               <li>
                 <span>LinkedIn</span>
                 <a href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener noreferrer">linkedin.com/in/hmoff1711</a>
               </li>
               <li>
-                <span>Location</span>
-                <p>Baku, Azerbaijan</p>
+                <span>GitHub</span>
+                <a href="https://github.com/hmoff1711" target="_blank" rel="noopener noreferrer">github.com/hmoff1711</a>
+              </li>
+              <li>
+                <span>Languages</span>
+                <p>Azerbaijani — Native · Russian — Native · English — A2</p>
               </li>
             </ul>
             <div class="contact-actions">
