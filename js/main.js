@@ -1,85 +1,144 @@
+(() => {
+  "use strict";
 
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-  const id=a.getAttribute('href'); if(id && id.length>1){ e.preventDefault(); const nav=document.querySelector('.navbar');
-const gap=8;
-const hh = nav ? nav.offsetHeight : 72;
-const el=document.querySelector(id);
-if(el){ const y=el.getBoundingClientRect().top + window.pageYOffset - hh - gap;
-window.scrollTo({top:y, behavior:'smooth'}); }
-}
-}));
+  const root = document.documentElement;
+  const themeButton = document.querySelector(".theme-toggle");
+  const menuButton = document.querySelector(".menu-toggle");
+  const navigation = document.querySelector(".site-nav");
+  const navigationLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
+  const revealItems = [...document.querySelectorAll(".reveal")];
 
-// Reveal on scroll
-const obs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); obs.unobserve(e.target);} });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-
-// Dark mode toggle
-const root = document.documentElement;
-const toggle = document.getElementById('darkModeToggle');
-const applyTheme = (v)=>{ if(v==='dark'){ root.classList.add('dark'); toggle.textContent='☀️'; } else { root.classList.remove('dark'); toggle.textContent='🌙'; } };
-let pref = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-applyTheme(pref);
-toggle.addEventListener('click', ()=>{ pref = (pref==='dark'?'light':'dark'); localStorage.setItem('theme',pref); applyTheme(pref); });
-
-// Parallax hero
-window.addEventListener('scroll', ()=>{
-  const sc = window.scrollY;
-  const hero = document.querySelector('.hero');
-  hero.style.backgroundPosition = `center ${-sc*0.1}px`;
-});
-
-// Animate meters when revealed
-document.querySelectorAll('.meter .fill').forEach(el=>{
-  el.style.width = '0';
-});
-const meterObs = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const fills = e.target.querySelectorAll('.meter .fill');
-      fills.forEach(f=>{
-        const pct = f.dataset.progress || 0;
-        requestAnimationFrame(()=>{ f.style.width = pct + '%'; });
-      });
-      meterObs.unobserve(e.target);
-    }
-  });
-},{threshold:0.35});
-document.querySelectorAll('.skills .grid, #skills').forEach(s=>meterObs.observe(s));
-
-// burger toggle (safe)
-document.addEventListener('click', function(e){
-  var b = e.target.closest('.nav-toggle');
-  if(!b) return;
-  var exp = b.getAttribute('aria-expanded') === 'true';
-  b.setAttribute('aria-expanded', String(!exp));
-  document.documentElement.classList.toggle('nav-open', !exp);
-});
-function resetNav(){
-  if ((window.innerWidth||document.documentElement.clientWidth) > 1024){
-    document.documentElement.classList.remove('nav-open');
-  }
-}
-window.addEventListener('resize', resetNav);
-window.addEventListener('orientationchange', resetNav);
-
-// ---- Compact zoom-rare bottom gap fixer (desktop only) ----
-(function(){
-  const footer = document.querySelector('#site-footer');
-  if(!footer) return;
-  const applyFix = ()=>{
-    const doc = document.documentElement;
-    const rect = footer.getBoundingClientRect();
-    const footerBottom = rect.bottom + window.scrollY;
-    const gap = doc.scrollHeight - footerBottom;
-    if(gap > 50 && window.innerWidth >= 1024){
-      footer.style.marginTop = `calc(${getComputedStyle(footer).marginTop} - ${gap}px)`;
-    }else{
-      footer.style.marginTop = '';
+  const readSavedTheme = () => {
+    try {
+      const savedTheme = localStorage.getItem("portfolio-theme");
+      return savedTheme === "dark" || savedTheme === "light" ? savedTheme : null;
+    } catch {
+      return null;
     }
   };
-  ['load','resize','orientationchange'].forEach(ev=>window.addEventListener(ev, applyFix));
-  setTimeout(applyFix, 0);
+
+  const saveTheme = (theme) => {
+    try {
+      localStorage.setItem("portfolio-theme", theme);
+    } catch {
+      // Theme selection still works for the current page when storage is unavailable.
+    }
+  };
+
+  const updateThemeButton = (theme) => {
+    if (!themeButton) return;
+
+    const darkThemeActive = theme === "dark";
+    themeButton.setAttribute("aria-label", darkThemeActive ? "Switch to light theme" : "Switch to dark theme");
+    themeButton.title = darkThemeActive ? "Switch to light theme" : "Switch to dark theme";
+
+    const icon = themeButton.querySelector("span");
+    if (icon) icon.textContent = darkThemeActive ? "☀" : "☾";
+  };
+
+  const applyTheme = (theme, persist = false) => {
+    root.dataset.theme = theme;
+    updateThemeButton(theme);
+    if (persist) saveTheme(theme);
+  };
+
+  const savedTheme = readSavedTheme();
+  const colorSchemeQuery = typeof window.matchMedia === "function"
+    ? window.matchMedia("(prefers-color-scheme: dark)")
+    : null;
+  const systemPrefersDark = colorSchemeQuery?.matches === true;
+  applyTheme(savedTheme || (systemPrefersDark ? "dark" : "light"));
+
+  themeButton?.addEventListener("click", () => {
+    applyTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
+  });
+
+  if (!savedTheme && colorSchemeQuery) {
+    const handleColorSchemeChange = (event) => {
+      if (!readSavedTheme()) applyTheme(event.matches ? "dark" : "light");
+    };
+
+    if (typeof colorSchemeQuery.addEventListener === "function") {
+      colorSchemeQuery.addEventListener("change", handleColorSchemeChange);
+    } else if (typeof colorSchemeQuery.addListener === "function") {
+      colorSchemeQuery.addListener(handleColorSchemeChange);
+    }
+  }
+
+  const closeMenu = () => {
+    if (!menuButton || !navigation) return;
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Open navigation");
+    navigation.classList.remove("is-open");
+  };
+
+  menuButton?.addEventListener("click", () => {
+    if (!navigation) return;
+    const willOpen = menuButton.getAttribute("aria-expanded") !== "true";
+    menuButton.setAttribute("aria-expanded", String(willOpen));
+    menuButton.setAttribute("aria-label", willOpen ? "Close navigation" : "Open navigation");
+    navigation.classList.toggle("is-open", willOpen);
+  });
+
+  navigationLinks.forEach((link) => link.addEventListener("click", closeMenu));
+
+  document.addEventListener("click", (event) => {
+    if (!navigation?.classList.contains("is-open")) return;
+    if (!navigation.contains(event.target) && !menuButton?.contains(event.target)) closeMenu();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+      menuButton?.focus();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860) closeMenu();
+  });
+
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px" }
+    );
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+  } else {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+  }
+
+  const sections = navigationLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && sections.length) {
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleSections = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (!visibleSections.length) return;
+
+        const activeId = `#${visibleSections[0].target.id}`;
+        navigationLinks.forEach((link) => {
+          link.classList.toggle("is-active", link.getAttribute("href") === activeId);
+        });
+      },
+      { rootMargin: "-30% 0px -58%", threshold: [0, 0.2, 0.5, 0.8] }
+    );
+
+    sections.forEach((section) => sectionObserver.observe(section));
+  }
+
+  const year = document.querySelector("#current-year");
+  if (year) year.textContent = String(new Date().getFullYear());
 })();
