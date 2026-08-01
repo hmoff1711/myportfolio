@@ -681,12 +681,16 @@ code {
   position: absolute;
   top: 18px;
   right: 22px;
-  color: var(--primary-soft);
+  color: #6d9c8b;
   font-size: 3rem;
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.08em;
   user-select: none;
+}
+
+html[data-theme="dark"] .card-index {
+  color: #44866d;
 }
 
 .skill-card h3 {
@@ -783,6 +787,10 @@ code {
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.case-grid .case-subheading {
+  margin-top: 22px;
 }
 
 .case-grid p,
@@ -1061,6 +1069,13 @@ code {
 
 .button-light:hover {
   background: #eaf9f1;
+}
+
+.form-privacy {
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .button-outline-light {
