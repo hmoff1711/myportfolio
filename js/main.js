@@ -2,19 +2,17 @@
   "use strict";
 
   const root = document.documentElement;
+  const body = document.body;
   const themeButton = document.querySelector(".theme-toggle");
+  const themeLabel = document.querySelector(".theme-toggle-label");
   const menuButton = document.querySelector(".menu-toggle");
   const navigation = document.querySelector(".site-nav");
   const navigationLinks = [...document.querySelectorAll('.site-nav a[href^="#"]')];
   const revealItems = [...document.querySelectorAll(".reveal")];
   const contactForm = document.querySelector(".contact-form");
   const submitButton = contactForm?.querySelector('button[type="submit"]');
-  const mobileNavigationQuery = typeof window.matchMedia === "function"
-    ? window.matchMedia("(max-width: 960px)")
-    : null;
-  const colorSchemeQuery = typeof window.matchMedia === "function"
-    ? window.matchMedia("(prefers-color-scheme: dark)")
-    : null;
+  const mobileNavigationQuery = window.matchMedia?.("(max-width: 980px)");
+  const colorSchemeQuery = window.matchMedia?.("(prefers-color-scheme: dark)");
 
   const readSavedTheme = () => {
     try {
@@ -29,7 +27,7 @@
     try {
       localStorage.setItem("portfolio-theme", theme);
     } catch {
-      // The selected theme still applies to the current page.
+      // The selected theme still applies for the current visit.
     }
   };
 
@@ -37,12 +35,10 @@
     if (!themeButton) return;
 
     const darkThemeActive = theme === "dark";
-    const label = darkThemeActive ? "Switch to light theme" : "Switch to dark theme";
-    themeButton.setAttribute("aria-label", label);
-    themeButton.title = label;
-
-    const icon = themeButton.querySelector("span");
-    if (icon) icon.textContent = darkThemeActive ? "☀" : "☾";
+    const controlLabel = darkThemeActive ? "Switch to light theme" : "Switch to dark theme";
+    themeButton.setAttribute("aria-label", controlLabel);
+    themeButton.title = controlLabel;
+    if (themeLabel) themeLabel.textContent = darkThemeActive ? "Light" : "Dark";
   };
 
   const applyTheme = (theme, persist = false) => {
@@ -50,12 +46,11 @@
     updateThemeButton(theme);
 
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.setAttribute("content", theme === "dark" ? "#0c1815" : "#075d45");
+    themeColor?.setAttribute("content", theme === "dark" ? "#0d151b" : "#f4f6f8");
     if (persist) saveTheme(theme);
   };
 
-  const initialTheme = root.dataset.theme === "dark" ? "dark" : "light";
-  applyTheme(initialTheme);
+  applyTheme(root.dataset.theme === "dark" ? "dark" : "light");
 
   themeButton?.addEventListener("click", () => {
     applyTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
@@ -68,7 +63,7 @@
 
     if (typeof colorSchemeQuery.addEventListener === "function") {
       colorSchemeQuery.addEventListener("change", handleColorSchemeChange);
-    } else if (typeof colorSchemeQuery.addListener === "function") {
+    } else {
       colorSchemeQuery.addListener(handleColorSchemeChange);
     }
   }
@@ -80,17 +75,22 @@
     menuButton.setAttribute("aria-expanded", "false");
     menuButton.setAttribute("aria-label", "Open navigation");
     navigation.classList.remove("is-open");
+    body.classList.remove("menu-open");
 
     if (wasOpen && returnFocus) menuButton.focus();
   };
 
-  menuButton?.addEventListener("click", () => {
-    if (!navigation) return;
+  const openMenu = () => {
+    if (!menuButton || !navigation) return;
 
-    const willOpen = menuButton.getAttribute("aria-expanded") !== "true";
-    menuButton.setAttribute("aria-expanded", String(willOpen));
-    menuButton.setAttribute("aria-label", willOpen ? "Close navigation" : "Open navigation");
-    navigation.classList.toggle("is-open", willOpen);
+    menuButton.setAttribute("aria-expanded", "true");
+    menuButton.setAttribute("aria-label", "Close navigation");
+    navigation.classList.add("is-open");
+    body.classList.add("menu-open");
+  };
+
+  menuButton?.addEventListener("click", () => {
+    navigation?.classList.contains("is-open") ? closeMenu() : openMenu();
   });
 
   navigationLinks.forEach((link) => {
@@ -113,7 +113,7 @@
   if (mobileNavigationQuery) {
     if (typeof mobileNavigationQuery.addEventListener === "function") {
       mobileNavigationQuery.addEventListener("change", handleNavigationBreakpoint);
-    } else if (typeof mobileNavigationQuery.addListener === "function") {
+    } else {
       mobileNavigationQuery.addListener(handleNavigationBreakpoint);
     }
   }
@@ -133,10 +133,7 @@
     );
 
     revealItems.forEach((item) => revealObserver.observe(item));
-
-    window.setTimeout(() => {
-      revealItems.forEach((item) => item.classList.add("is-visible"));
-    }, 2200);
+    window.setTimeout(() => revealItems.forEach((item) => item.classList.add("is-visible")), 2200);
   } else {
     revealItems.forEach((item) => item.classList.add("is-visible"));
   }
@@ -149,11 +146,9 @@
     navigationLinks.forEach((link) => {
       const active = link.getAttribute("href") === activeId;
       link.classList.toggle("is-active", active);
-      if (active) {
-        link.setAttribute("aria-current", "location");
-      } else {
-        link.removeAttribute("aria-current");
-      }
+      active
+        ? link.setAttribute("aria-current", "location")
+        : link.removeAttribute("aria-current");
     });
   };
 
@@ -173,7 +168,6 @@
   }
 
   let submitResetTimer;
-
   const resetSubmitButton = () => {
     if (!submitButton) return;
     window.clearTimeout(submitResetTimer);
