@@ -372,6 +372,11 @@ code {
   padding-block: clamp(78px, 10vh, 118px);
 }
 
+html[data-layout="desktop-request"] .hero-grid {
+  min-height: auto;
+  padding-block: 88px;
+}
+
 .hero-copy {
   max-width: 760px;
 }
