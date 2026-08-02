@@ -1327,7 +1327,10 @@ html[data-theme="dark"] .button-primary {
   }
 
   .hero-role span {
-    display: none;
+    display: block;
+    height: 6px;
+    margin: 0;
+    font-size: 0;
   }
 
   .hero-actions {
