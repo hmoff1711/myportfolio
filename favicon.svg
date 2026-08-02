@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">HM monogram</title>
+  <rect width="512" height="512" rx="112" fill="#102934"/>
+  <rect x="72" y="72" width="78" height="12" rx="6" fill="#69b8b2"/>
+  <path d="M96 154v204M96 256h126M222 154v204" fill="none" stroke="#f4f6f8" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M286 358V154l62 102 62-102v204" fill="none" stroke="#f4f6f8" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
