@@ -32,6 +32,14 @@ const hasClass = (node, name) => (node.attrs.class || '').split(/\s+/).includes(
 const isExternal = value => /^[a-z][\w+.-]*:|^\/\//i.test(value);
 const meta = name => nodes.find(node => node.tag === 'meta' && (node.attrs.name === name || node.attrs.property === name))?.attrs.content;
 
+test('Adventure controllers link with their real exported dependencies', async () => {
+  // File existence alone cannot catch a renamed or missing named export.
+  const coast = await import('../js/game.js');
+  const journey = await import('../js/journey.js');
+  assert.equal(typeof coast.boot, 'function');
+  assert.equal(typeof journey.createJourneyController, 'function');
+});
+
 function localAsset(reference, from = root) {
   const clean = decodeURIComponent(reference.split(/[?#]/, 1)[0]);
   assert.ok(clean, `Empty asset path: ${reference}`);
