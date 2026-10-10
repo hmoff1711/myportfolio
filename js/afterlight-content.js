@@ -208,22 +208,13 @@ export const FILM_SCRIPTS = [
   },
 ];
 
-export const INTERESTS = [
-  { id: 'space', title: 'Space', line: 'Distant worlds, improbable scale, and the urge to look a little further.', destination: 'observatory' },
-  { id: 'time', title: 'Time', line: 'Loops, parallel possibilities, and the moments we would keep if we could.', destination: 'chronos' },
-  { id: 'music', title: 'Music', line: 'Something to listen to. Something to get lost in. Something to make.', destination: 'resonance' },
-  { id: 'games', title: 'Games', line: 'Worlds that let curiosity become an action, and an action become a story.', destination: 'arcade' },
-  { id: 'cinema', title: 'Films & series', line: 'Other lives, other rules, and that feeling when the credits arrive too soon.', destination: 'cinema' },
-  { id: 'curiosity', title: 'The next thing', line: 'There is always another interesting door. This little universe leaves a few open.', destination: 'coast' },
-];
-
-export const FIELD_NOTES = {
-  coast: { title: 'A light on the coast', text: 'The lighthouse is where the story starts. A keeper, a broken beam, and a small promise to get the light home. Beyond the shore, the archive is waiting.' },
-  observatory: { title: 'Received, at last', text: 'Three signals pulled out of the dark. Dinner, a postcard, a balcony. The universe is beginning to sound suspiciously like a place where people live.' },
-  chronos: { title: 'Permission to move on', text: 'The clock can turn in either direction. The spoon has finally fallen. Some moments are worth keeping; some are worth letting finish.' },
-  resonance: { title: 'An occupied silence', text: 'A train became a drum. A bird joined the melody. Somewhere, a night shift has a soundtrack. The archive does not require perfect timing.' },
-  cinema: { title: 'Stay for the window', text: 'Three reels, three small endings. The balcony from the telescope appeared again. Someone has been connecting these rooms for a long time.' },
-  arcade: { title: 'One more run', text: 'There is no urgent cosmic reason to play another round. The cabinet is simply here because sometimes one more run is exactly the right plan.' },
+export const WORLD_IDEAS = {
+  framing: 'These are design ideas interpreted from requests for meaningful choices, continuity and balanced sound. They describe this fictional world, not personal traits, delivered projects or biography.',
+  entries: [
+    { id: 'choices', title: 'Choices have a history', line: 'Yesterday keeps a bridge that today has lost. The Time Garden makes a change in context alter the paths you can take.', destination: 'chronos' },
+    { id: 'context', title: 'A context worth keeping', line: 'A discovery should survive your departure. The atlas keeps found stories and your pocket-orchestra loop in this browser so you can return to something familiar.', destination: 'observatory' },
+    { id: 'listening', title: 'Room to listen', line: 'Sound is optional, and the room is yours to shape. Build a balanced little loop, leave space between its notes, and hear what your changes do.', destination: 'resonance' },
+  ],
 };
 
 export const SECRETS = {

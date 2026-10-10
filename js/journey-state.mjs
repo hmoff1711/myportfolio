@@ -1,5 +1,7 @@
 // Rules for the fictional Afterlight worlds. All portfolio content is independent
 // of these milestones. The renderer, audio and browser storage are optional users.
+import { DISCOVERIES as DISCOVERY_CONTENT } from './afterlight-content.js';
+
 export const REGIONS = Object.freeze([
   { id: 'observatory', title: 'The Observatory', subtitle: 'SPACE', description: 'Tune three orbital rings. Find a signal in the silence.', spawn: { x: 0, z: 5 } },
   { id: 'chronos', title: 'The Time Garden', subtitle: 'TIME', description: 'One place. Two moments. Some paths only exist in yesterday.', spawn: { x: -6, z: 4 } },
@@ -10,20 +12,15 @@ export const ORBIT_TARGET = Object.freeze([2, 5, 1]);
 export const CHIME_PATTERN = Object.freeze([0, 2, 1, 3]);
 export const FILMS = Object.freeze(['signal', 'orbit', 'home']);
 
-const DISCOVERIES = Object.freeze([
-  { region: 'observatory', name: 'The light that arrived late', text: 'A note pinned to the telescope: “A star does not know who is looking. It shines anyway.”', title: 'A light in transit' },
-  { region: 'observatory', name: 'The smallest possible audience', text: 'An empty chair faces the sky. Beside it, a cup has been carefully kept warm.', title: 'Reserved for you' },
-  { region: 'observatory', name: 'An unfinished map', text: 'The final constellation is unnamed. There is room on the map for things no one has discovered yet.', title: 'Beyond the edge' },
-  { region: 'chronos', name: 'Tomorrow’s postcard', text: 'The stamp is dated tomorrow. The message says: “You made it. Take the scenic route back.”', title: 'A letter ahead of time' },
-  { region: 'chronos', name: 'The stubborn little seed', text: 'In one moment, a seed. In another, a tree. Neither is waiting for permission to become the other.', title: 'Still becoming' },
-  { region: 'chronos', name: 'A minute with no hands', text: 'This clock has lost its hands. Someone has written underneath: “Stay for as long as you need.”', title: 'Time off' },
-  { region: 'resonance', name: 'The unheard track', text: 'The sleeve has no artist and no title. Just a handwritten instruction: “Play this when the world is too loud.”', title: 'Side B' },
-  { region: 'resonance', name: 'A good kind of repetition', text: 'Four little lights keep the beat. The next note is yours.', title: 'Begin again' },
-  { region: 'resonance', name: 'The silence between', text: 'A score with a single rest in the middle. Sometimes the empty space is what lets the music breathe.', title: 'Room to listen' },
-  { region: 'cinema', name: 'The almost-ending', text: 'A discarded script ends with “And then—”. Someone has circled it and written: “Keep this version.”', title: 'To be continued' },
-  { region: 'cinema', name: 'The empty seat', text: 'One ticket. No expiry date. It is valid for the film you have not made yet.', title: 'Admit one' },
-  { region: 'cinema', name: 'A frame from home', text: 'A small house. A bright window. No matter how far a story travels, it always remembers a light somewhere.', title: 'After the credits' },
-].map((item, index) => ({ ...item, id: `${item.region}-${index % 3 + 1}`, ...[{ x: -7, z: 3 }, { x: 7, z: 4 }, { x: 4, z: 5 }][index % 3] })));
+// Locations belong to the movement rules; archive titles and stories have one
+// source in afterlight-content. The existing identifiers also remain save IDs.
+const DISCOVERIES = Object.freeze(REGIONS.flatMap(region =>
+  [{ x: -7, z: 3 }, { x: 7, z: 4 }, { x: 4, z: 5 }].map((position, index) => {
+    const id = `${region.id}-${index + 1}`, content = DISCOVERY_CONTENT[id];
+    return { id, region: region.id, ...position, name: content.title,
+      title: content.title, text: content.text.join('\n\n') };
+  })
+));
 
 const REGION_OBJECTS = {
   observatory: [
@@ -54,7 +51,7 @@ const matchesOrbit = state => state.orbit.every((value, index) => value === ORBI
 export function createJourney() {
   return { region: 'observatory', ...REGIONS[0].spawn, orbit: [0, 1, 3], starsAligned: false,
     telescopeSeen: false, era: 1, timeShard: false, resonance: false, chimeInput: [],
-    pattern: DEFAULT_PATTERN.map(row => [...row]), filmSeen: [], discoveries: [] };
+    pattern: DEFAULT_PATTERN.map(row => [...row]), tempo: 96, filmSeen: [], discoveries: [] };
 }
 
 export function getObjects(state) {
@@ -185,6 +182,12 @@ export function setStep(state, track, step) {
   return result('step', state.pattern[track][step] ? 'Note added.' : 'A little space between the notes.', { track, step, active: state.pattern[track][step] });
 }
 
+export function setTempo(state, value) {
+  if (state.region !== 'resonance' || !Number.isInteger(value) || value < 60 || value > 150) return result('invalid', 'Choose a tempo from 60 to 150 BPM in the pocket orchestra.');
+  state.tempo = value;
+  return result('tempo', `Your loop: ${value} BPM.`, { value });
+}
+
 export function recordFilm(state, id) {
   if (state.region !== 'cinema' || !FILMS.includes(id)) return result('invalid', 'That film is not on tonight’s programme.');
   const first = !state.filmSeen.includes(id);
@@ -234,9 +237,11 @@ export function interactJourney(state, id) {
 export function journeyObjective(state) {
   const region = regionById(state.region) ?? REGIONS[0];
   const objectives = {
-    observatory: state.starsAligned
-      ? { title: 'A signal, found.', hint: 'Look through the telescope. Or stay a while and watch the sky.', complete: true }
-      : { title: 'Put the stars in reach.', hint: 'Visit the three dials. Align inner 3, middle 6, outer 2 with the luminous marks.', complete: false },
+    observatory: state.telescopeSeen
+      ? { title: 'A signal, found.', hint: 'The sky is yours to return to. Stay a while, or look for the three radio fragments.', complete: true }
+      : state.starsAligned
+        ? { title: 'The sky is listening.', hint: 'The rings are aligned. Visit the telescope to receive the constellation.', complete: false }
+        : { title: 'Put the stars in reach.', hint: 'Visit the three dials. Align inner 3, middle 6, outer 2 with the luminous marks.', complete: false },
     chronos: state.timeShard
       ? { title: 'Tomorrow, in your pocket.', hint: 'The bridge returns in yesterday. Both moments are still yours to explore.', complete: true }
       : { title: 'Take the long way through time.', hint: 'Cross the old bridge in yesterday. On the far bank, return to today to find the shard.', complete: false },
@@ -253,7 +258,7 @@ export function journeyObjective(state) {
 export function saveJourney(state) {
   return { version: 1, region: state.region, x: state.x, z: state.z, orbit: [...state.orbit],
     starsAligned: state.starsAligned, telescopeSeen: state.telescopeSeen, era: state.era,
-    timeShard: state.timeShard, resonance: state.resonance, pattern: state.pattern.map(row => [...row]),
+    timeShard: state.timeShard, resonance: state.resonance, pattern: state.pattern.map(row => [...row]), tempo: state.tempo,
     filmSeen: [...state.filmSeen], discoveries: [...state.discoveries] };
 }
 
@@ -269,8 +274,19 @@ export function restoreJourney(data) {
   state.timeShard = data.timeShard === true;
   state.resonance = data.resonance === true;
   if (Array.isArray(data.pattern) && data.pattern.length === 4 && data.pattern.every(row => Array.isArray(row) && row.length === 8 && row.every(value => typeof value === 'boolean'))) state.pattern = data.pattern.map(row => [...row]);
+  if (Number.isInteger(data.tempo) && data.tempo >= 60 && data.tempo <= 150) state.tempo = data.tempo;
   state.filmSeen = uniqueKnown(data.filmSeen, FILMS);
   state.discoveries = uniqueKnown(data.discoveries, DISCOVERIES.map(item => item.id));
   if (isJourneyWalkable(data.x, data.z, state)) { state.x = data.x; state.z = data.z; }
+  return state;
+}
+
+// A stale tab can save after another tab finds a story. Discoveries and solved
+// milestones are monotonic; the current tab still owns its route and instrument.
+export function mergeJourneyProgress(state, stored) {
+  const incoming = restoreJourney(stored);
+  for (const flag of ['starsAligned', 'telescopeSeen', 'timeShard', 'resonance']) state[flag] = state[flag] || incoming[flag];
+  state.discoveries = [...new Set([...state.discoveries, ...incoming.discoveries])];
+  state.filmSeen = [...new Set([...state.filmSeen, ...incoming.filmSeen])];
   return state;
 }

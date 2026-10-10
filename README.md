@@ -1,9 +1,12 @@
 # The Night Shift
 
-Hikmat Mahammadov’s professional portfolio and a small playable coastal
+Hikmat Mahammadov’s professional portfolio and a playable coastal
 adventure. Walk between islands, redirect a beam through two reflectors, push
 a counterweight to lower a bridge, and carry a lens home to the lighthouse.
-The game is fiction; the professional journal records real infrastructure work.
+AFTERLIGHT extends the coast with four freely accessible worlds: the Observatory,
+Time Garden, Resonance Room and Midnight Cinema. Twelve original fictional
+discoveries connect their stories. The game is fiction; the professional
+journal records real infrastructure work.
 
 ## Local preview
 
@@ -31,6 +34,19 @@ restart the adventure. Progress is stored locally in `hikmat-night-shift-v1`;
 unavailable browser storage does not prevent play. Sound starts muted and is
 enabled only through its button. The detail control reduces rendering cost.
 
+Open Worlds & discoveries to visit any AFTERLIGHT destination without finishing
+the coast. The atlas provides keyboard-operable destination and landmark buttons;
+selecting a landmark starts a walking route. Align the observatory rings, cross
+a bridge in yesterday, play the chimes, build a four-voice loop, or visit the
+cinema. Found stories can be reread from the atlas.
+
+AFTERLIGHT discoveries, puzzle progress, loop notes and tempo are saved locally
+under `hikmat-afterlight-v1`, separately from the coast. Open tabs merge earned
+discoveries and milestones before saving, so an older tab cannot erase them.
+Browser storage is optional; saves do not synchronize between devices. Three original miniature
+films play in real time, with pause and frame-by-frame reading controls.
+Reduced motion starts films in reading mode and suppresses decorative movement.
+
 Profile, expertise, case notes, employment, education, contact information and
 downloads are independent of quest progress. The journal loads independently
 of the game. Its content exists in HTML and remains readable without JavaScript;
@@ -53,6 +69,12 @@ content. Reduced-motion preferences suppress decorative movement.
 - `js/world.js`: original procedural coast, keeper, lighthouse and animated props.
 - `js/quest-state.mjs`: deterministic quest rules, collision bounds, navigation
   and save validation, independent of the renderer.
+- `css/journey.css`, `js/journey.js`: AFTERLIGHT atlas, exploration controller,
+  discoveries, pocket orchestra, films and local progress.
+- `js/journey-state.mjs`: world routes, puzzle rules, sequencer and save validation.
+- `js/universe-world.js`: original procedural scenery for the four worlds.
+- `js/afterlight-content.js`: original fiction, film scripts and design ideas;
+  these do not assert biographical traits or project achievements.
 - `css/dossier.css`, `js/dossier.js`: professional journal, accessible dialog
   navigation, deep links, native contact form and print behavior.
 - `vendor/three/`: self-hosted Three.js runtime and its license.
@@ -82,36 +104,25 @@ remain directly accessible.
 ## Verification
 
 ```sh
-node --test scripts/test-quest.mjs scripts/verify.mjs
+node --test scripts/test-quest.mjs scripts/test-journey.mjs scripts/verify.mjs
 ```
 
 The quest tests exercise movement, reflection, physical pushing, bridge access,
 the complete journey, interaction prerequisites and saved-state validation.
+AFTERLIGHT tests cover all four worlds, reachable landmarks, puzzle prerequisites,
+the twelve discoveries, loop notes and tempo, films, save restoration and renderer
+state changes. These state and scene checks do not replace interaction tests.
 Static checks cover source content, fragments, asset paths, the local module
 graph, metadata, native form fields, licensing and unchanged download hashes.
 
 These checks do not establish browser rendering or external message delivery.
-Before publishing, exercise the full adventure using keyboard and pointer,
+Before publishing, exercise the coast and all four worlds using keyboard and pointer,
 mobile-sized layouts and touch controls, journal focus/escape behavior, deep
 links and Back/Forward, no-JavaScript and WebGL failure states, reduced motion
-and print. A real mobile device remains a separate check from viewport resizing.
+and print. Check discovery rereading, loop and tempo persistence, films in both
+playback and reading modes, and return to the coast. A real mobile device remains
+a separate check from viewport resizing.
 Do not send a test message to Airform without intent to send it.
-
-### Local verification checkpoint — 2026-10-04
-
-- 24 automated checks passed, including a complete quest through movement,
-  interaction, bridge access, lens delivery and saved-state restoration.
-- Local HTTP checks passed for the `/myportfolio/` page, module graph,
-  stylesheets and Resume, including JavaScript MIME types for `.mjs`.
-- Desktop browser interaction verified walking, both reflectors, the moving
-  counterweight, the lowered bridge, carrying the lens and restored progress.
-- The browser exposed all professional sections with JavaScript disabled and
-  opened the profile journal from a direct fragment at a mobile viewport.
-- Later browser automation stopped returning reliable screenshots and input,
-  including with JavaScript disabled. Final lighthouse presentation, complete
-  responsive visual review, touch input, modal history and print still need
-  browser verification. Physical mobile devices and Airform delivery were not
-  tested. No deployment was performed.
 
 ## Third-party runtime and hosting
 
@@ -123,4 +134,4 @@ imports use local relative URLs, without a CDN dependency.
 Serve the repository root on GitHub Pages at `/myportfolio/`. ES modules must be
 served with a JavaScript MIME type, including `.mjs`. No client-route fallback
 or server-side application is needed. Publishing and GitHub Pages configuration
-changes are separate actions.
+changes are separate actions; this local development stage does not deploy the site.
