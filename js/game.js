@@ -1,6 +1,5 @@
 import * as THREE from '../vendor/three/three.module.js';
 import { createWorld } from './world.js';
-import { createJourneyController } from './journey.js';
 import { START, OBJECTS, createState, restoreState, saveState, movePlayer, nearestObject, interact, objective, findPath } from './quest-state.mjs';
 
 export function boot() {
@@ -33,7 +32,6 @@ export function boot() {
   let last = performance.now(), elapsed = 0, step = 0, moved = 0, frame = 0, dawn = state.complete ? 1 : 0;
   let mapView = false, lowQuality = innerWidth < 700, toastTimer, saveTimer = 0, slowFrames = 0;
   let sound = false, audioContext, contextLost = false, endDismissed = state.complete;
-  let journey;
   let objectiveKey = '', actionKey = '', lastTick = 0;
   function save() { try { localStorage.setItem(storageKey, JSON.stringify(saveState(state))); } catch { /* Storage is optional, including in private mode. */ } }
   function toast(message) {
@@ -49,23 +47,7 @@ export function boot() {
       const at = audioContext.currentTime + index * .15;
       gain.gain.setValueAtTime(0, at); gain.gain.linearRampToValueAtTime(.065, at + .025); gain.gain.exponentialRampToValueAtTime(.001, at + .55);
       oscillator.connect(gain); gain.connect(audioContext.destination); oscillator.start(at); oscillator.stop(at + .6);
-      oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); };
     });
-  }
-  function playNote(frequency, duration = .4, type = 'sine') {
-    if (!sound || !audioContext || audioContext.state !== 'running') return;
-    const oscillator = audioContext.createOscillator(), gain = audioContext.createGain(), at = audioContext.currentTime;
-    oscillator.type = type; oscillator.frequency.value = frequency;
-    gain.gain.setValueAtTime(0, at); gain.gain.linearRampToValueAtTime(.045, at + .015); gain.gain.exponentialRampToValueAtTime(.001, at + duration);
-    oscillator.connect(gain); gain.connect(audioContext.destination); oscillator.start(at); oscillator.stop(at + duration + .02);
-    oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); };
-  }
-  async function toggleSound() {
-    try {
-      if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      await audioContext.resume(); sound = !sound; $('sound-toggle').textContent = sound ? 'Sound on' : 'Sound off'; $('sound-toggle').setAttribute('aria-pressed', String(sound));
-      if (sound) chime('signal');
-    } catch { toast('Sound is unavailable in this browser. The world still works silently.'); }
   }
   function resize() {
     const width = canvas.clientWidth || innerWidth, height = canvas.clientHeight || innerHeight;
@@ -79,10 +61,9 @@ export function boot() {
     renderer.shadowMap.enabled = !value; world.setQuality(value);
     $('quality-toggle').textContent = value ? 'Detail: simple' : 'Detail: full';
     $('quality-toggle').setAttribute('aria-pressed', String(value)); resize();
-    journey?.setQuality(value);
   }
   function clearInput() { keys.clear(); touchKeys.clear(); path = []; pushing = 0; marker.visible = false; }
-  function isActive() { return playing && !paused && !journalOpen && !contextLost && !document.hidden && !$('help-dialog').open && !journey?.active && !journey?.modalOpen; }
+  function isActive() { return playing && !paused && !journalOpen && !contextLost && !document.hidden && !$('help-dialog').open; }
   function currentObject() {
     const object = nearestObject(state), distance = Math.hypot(state.x - state.crateX, state.z - 2);
     if (!state.bridge && distance < 1.9 && (!object || distance < object.distance)) return { id: 'crate', x: state.crateX, z: 2, action: 'Push counterweight', distance };
@@ -146,7 +127,7 @@ export function boot() {
   });
   const movementCodes = new Set(['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']);
   document.addEventListener('keydown', event => {
-    if (!isActive() || event.target !== canvas) return;
+    if (!isActive() || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
     if (movementCodes.has(event.code)) { event.preventDefault(); keys.add(event.code); path = []; marker.visible = false; pushing = 0; }
     if (event.code === 'KeyE' && !event.repeat) { event.preventDefault(); act(); }
   });
@@ -174,7 +155,13 @@ export function boot() {
   $('restart-game').addEventListener('click', () => { state = createState(); dawn = 0; endDismissed = false; clearInput(); $('ending').hidden = true; $('help-dialog').close(); save(); updateInterface(); toast('A new night. A familiar coast.'); });
   $('keep-exploring').addEventListener('click', () => { endDismissed = true; $('ending').hidden = true; canvas.focus({ preventScroll: true }); });
   $('quality-toggle').addEventListener('click', () => setQuality(!lowQuality));
-  $('sound-toggle').addEventListener('click', toggleSound);
+  $('sound-toggle').addEventListener('click', async () => {
+    try {
+      if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      await audioContext.resume(); sound = !sound; $('sound-toggle').textContent = sound ? 'Sound on' : 'Sound off'; $('sound-toggle').setAttribute('aria-pressed', String(sound));
+      if (sound) chime('signal');
+    } catch { toast('Sound is unavailable in this browser. The coast still works silently.'); }
+  });
   window.addEventListener('portfolio:visibility', event => {
     journalOpen = event.detail.open;
     if (journalOpen && $('help-dialog').open) $('help-dialog').close();
@@ -185,17 +172,12 @@ export function boot() {
   window.addEventListener('pagehide', save); window.addEventListener('resize', resize); media.addEventListener('change', clearInput);
   canvas.addEventListener('webglcontextlost', event => {
     event.preventDefault(); contextLost = true; clearInput(); save(); document.body.classList.add('game-unavailable'); $('game-controls').hidden = true;
-    journey?.contextLost(); $('journey-entry').hidden = true;
-    clearTimeout(toastTimer); $('game-message').textContent = ''; $('game-message').classList.remove('visible');
     $('load-status').textContent = 'The scene was interrupted. Reload to return to the coast, or open the portfolio.';
     $('intro').hidden = false; $('start-game').hidden = true; $('fallback-link').hidden = false;
   });
   function tick(now) {
     frame = requestAnimationFrame(tick);
     const dt = Math.min((now - last) / 1000, .05); last = now;
-    if (contextLost) return;
-    if (journey?.active) { journey.tick(now, dt); return; }
-    if (journey?.modalOpen) return;
     if (contextLost || document.hidden || journalOpen || paused || $('help-dialog').open) return;
     if (!isActive() && now - lastTick < 32) return;
     lastTick = now; elapsed += dt; moved = 0;
@@ -231,20 +213,11 @@ export function boot() {
     updateInterface(); renderer.render(scene, camera);
     if (!lowQuality && dt > .038 && ++slowFrames > 180) { setQuality(true); slowFrames = 0; }
   }
-  journey = createJourneyController({ renderer, canvas, media, toast,
-    audio: { note: playNote, toggle: toggleSound, enabled: () => sound }, clearCoast: clearInput,
-    resumeCoast: () => {
-      playing = true; paused = false; clearInput(); document.body.classList.add('playing');
-      $('intro').hidden = true; $('game-hud').hidden = false; $('game-controls').hidden = false;
-      $('pause-game').textContent = 'Pause'; $('pause-game').setAttribute('aria-pressed', 'false'); $('pause-label').hidden = true;
-      resize(); canvas.focus({ preventScroll: true }); updateInterface();
-    }
-  });
   setQuality(lowQuality); world.character.position.set(state.x, 0, state.z);
   camera.position.copy(target).add(offset); camera.lookAt(target); world.update(state, 0, 0, { moving: false, step: 0, reduced: media.matches }); renderer.render(scene, camera);
   document.body.classList.add('game-ready'); $('start-game').disabled = false;
   $('start-game').textContent = state.bridge || state.signal ? 'Return to the coast' : 'Take the night shift';
-  $('load-status').textContent = 'A short first shift. Four worlds beyond. No rush.';
+  $('load-status').textContent = '3–5 minutes · No rush. No wrong turns.';
   updateInterface(); frame = requestAnimationFrame(tick);
   window.addEventListener('pageshow', () => { last = performance.now(); });
 }

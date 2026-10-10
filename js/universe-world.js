@@ -261,8 +261,7 @@ export function createUniverseWorld(scene, region = 'observatory') {
       if (i === 1) { ring(.51, .07, paint.copper, tone, [0, .47, 0], [0, 0, 0]); sphere(paint.pink, tone, [0, .47, 0], [.08, .08, .08]); }
       if (i === 2) { mesh(shapes.cone, paint.brass, tone, [0, .42, 0], [.5, .7, .5], [Math.PI, 0, 0]); sphere(paint.light, tone, [0, .05, 0], [.13, .13, .13]); }
       if (i === 3) for (let k = 0; k < 3; k++) box(paint.violet, tone, [0, .3 + k * .28, 0], [.9 - k * .15, .1, .45], [0, k * .35, 0]);
-      const halo = ring(.84, .018, musicColors[i], root, [x, 1.45, -2], [0, 0, 0]);
-      halo.name = `Chime feedback ${i}`; towerHalos.push(halo);
+      const halo = ring(.84, .018, musicColors[i], root, [x, 1.45, -2], [0, 0, 0]); towerHalos.push(halo);
       rod([x, .025, -1.1], [x * .25, .025, 1.8], .025, paint.bronze);
     }
     box(paint.dark, staticRoot, [0, .48, 3], [3.7, .96, 1.25]);
@@ -278,8 +277,7 @@ export function createUniverseWorld(scene, region = 'observatory') {
     }
     for (let i = 0; i < 3; i++) {
       const mat = basic(['#8dfbe3', '#efa8dc', '#b4b0ff'][i], { transparent: true, opacity: .25, depthWrite: false });
-      const ripple = ring(1, .018, mat, root, [0, .07, -2]);
-      ripple.name = `Sound ripple ${i}`; ripples.push(ripple);
+      const ripple = ring(1, .018, mat, root, [0, .07, -2]); ripples.push(ripple);
     }
   }
 
@@ -439,17 +437,14 @@ export function createUniverseWorld(scene, region = 'observatory') {
       pastGarden.visible = state.era === 0; futureGarden.visible = state.era !== 0; timeBridge.visible = state.era === 0; lastEra = state.era;
     }
     if (timeShard) { timeShard.visible = !state.timeShard && state.era === 1; timeShard.position.y = 1.3 + Math.sin(t * 1.6) * .12; timeShard.rotation.y = t * .55; }
-    // The controller owns this brief feedback. It clears motion.tone to -1
-    // after a chime; neither saved progress nor audio permission controls it.
-    const tone = Number.isInteger(motion.tone) && motion.tone >= 0 && motion.tone < 4 ? motion.tone : -1;
     for (let i = 0; i < towerHalos.length; i++) {
-      const active = tone === i;
+      const active = state.tones?.[state.tones.length - 1] === i;
       towerHalos[i].rotation.y = t * .28 + i * .5;
       towerHalos[i].scale.setScalar(active ? 1.18 + Math.sin(t * 5) * .06 : 1);
     }
     for (let i = 0; i < ripples.length; i++) {
       const phase = (t * .25 + i / 3) % 1;
-      ripples[i].visible = Boolean(state.resonance) || tone !== -1;
+      ripples[i].visible = Boolean(state.resonance) || Boolean(state.tones?.length);
       ripples[i].scale.setScalar(1 + phase * 5); ripples[i].material.opacity = (1 - phase) * .22;
     }
     if (filmSurface && ((!lowQuality && frame % 4 === 0 && !motion.reduced) || frame === 0 || lastFilmCount !== state.filmSeen?.length)) {
