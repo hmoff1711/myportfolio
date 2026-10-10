@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta id="viewport-meta" name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="IT Infrastructure Specialist with 5+ years in Windows administration, Active Directory, Microsoft 365, OneFS, endpoint deployment and L1/L2 support.">
   <meta name="author" content="Hikmat Mahammadov">
-  <meta name="theme-color" content="#78959e">
-  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f4f6f8">
+  <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <meta property="og:type" content="website">
@@ -31,10 +31,37 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.png" type="image/png" sizes="512x512">
   <link rel="apple-touch-icon" href="favicon.png">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/dossier.css">
+  <link rel="preload" href="images/anthony.jpg" as="image" type="image/jpeg" fetchpriority="high">
 
-  <script src="js/dossier.js" defer></script>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      root.classList.add("js");
+
+      let theme = "light";
+      try {
+        const savedTheme = localStorage.getItem("portfolio-theme");
+        theme = savedTheme === "dark" || savedTheme === "light"
+          ? savedTheme
+          : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      } catch {
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      root.dataset.theme = theme;
+
+      const desktopAppleUserAgent = /Macintosh/.test(navigator.userAgent);
+      const phoneSizedTouchDevice =
+        navigator.maxTouchPoints > 1 &&
+        Math.min(window.screen.width, window.screen.height) < 600;
+
+      if (desktopAppleUserAgent && phoneSizedTouchDevice) {
+        document.querySelector("#viewport-meta").setAttribute("content", "width=1180");
+        root.dataset.layout = "desktop-request";
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
   <script src="js/main.js" defer></script>
 
   <script type="application/ld+json">
@@ -71,234 +98,492 @@
     }
   </script>
 
-  <title>Hikmat Mahammadov — The Night Shift | IT Infrastructure</title>
-
+  <title>IT Infrastructure Specialist | Windows Systems Administration</title>
 </head>
 <body>
-  <a class="skip-link" href="#profile">Skip to professional portfolio</a>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="site-header">
-    <a class="brand" href="#profile" aria-label="Hikmat Mahammadov — profile">
-      <svg viewBox="0 0 36 48" aria-hidden="true"><path d="M12 20h12l4 23H8Zm-2 0h16M14 10h8v10h-8Zm-3 0 7-7 7 7M18 0v3M3 14l7 1M33 14l-7 1" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 33h4v10h-4Z" fill="currentColor"/></svg>
-      <span><strong>Hikmat Mahammadov</strong><small>IT Infrastructure Specialist</small></span>
-    </a>
-    <nav aria-label="Primary navigation"><a href="#profile">Profile</a><a href="#work">Case notes</a><a href="#contact">Contact <span aria-hidden="true">↗</span></a><a class="resume-link" href="cv/Hikmat_Mahammadov_Resume.pdf" download>Resume <span aria-hidden="true">↓</span></a></nav>
+    <div class="container nav-shell">
+      <a class="brand" href="#top">
+        <span class="brand-name">Hikmat Mahammadov</span>
+        <span class="brand-role">IT Infrastructure Specialist</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu" aria-label="Open navigation">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+
+      <nav class="site-nav" id="main-menu" aria-label="Primary navigation">
+        <a href="#focus">Focus</a>
+        <a href="#expertise">Expertise</a>
+        <a href="#work">Selected Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#background">Background</a>
+        <a href="#contact">Contact</a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme">
+          <span class="theme-toggle-mark" aria-hidden="true"></span>
+          <span class="theme-toggle-label">Dark</span>
+        </button>
+      </nav>
+    </div>
   </header>
-  <main id="main">
-    <section class="coast-experience" id="top" aria-labelledby="hero-title">
-      <canvas id="coast" tabindex="0" aria-label="The Night Shift, an explorable coastal world" aria-describedby="game-instructions"></canvas>
-      <div class="intro" id="intro">
-        <p class="eyebrow">A small adventure about keeping things running</p>
-        <h1 id="hero-title">The<br><em>night shift.</em></h1>
-        <p class="intro-story">An island asleep. A lighthouse without its light.<br>One last shift before the morning.</p>
-        <div class="intro-actions"><button class="primary-button" id="start-game" type="button" disabled>Preparing the coast… <span aria-hidden="true">→</span></button><a href="#profile">Meet the person behind it <span aria-hidden="true">↗</span></a></div>
-        <p class="load-status" id="load-status" role="status">The keeper is getting ready.</p>
-        <a id="fallback-link" href="#profile" class="primary-button" hidden>Open the portfolio →</a>
+
+  <main id="main" tabindex="-1">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Windows-centered infrastructure operations</p>
+          <h1 id="hero-title">Hikmat<br>Mahammadov</h1>
+          <p class="hero-role">IT Infrastructure Specialist <span aria-hidden="true">/</span> Windows Systems Administration</p>
+          <p class="hero-lead">
+            More than five years supporting identity, Microsoft 365, OneFS storage,
+            Windows endpoint deployment and cross-layer L1/L2 incident resolution.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download resume</a>
+            <a class="button button-secondary" href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener noreferrer">LinkedIn profile</a>
+          </div>
+          <p class="availability"><span aria-hidden="true"></span>Baku, Azerbaijan · Open to employer-sponsored relocation</p>
+        </div>
+
+        <figure class="hero-portrait reveal">
+          <div class="portrait-frame">
+            <img
+              class="profile-photo"
+              src="images/anthony.jpg"
+              alt="Portrait of Hikmat Mahammadov"
+              width="1254"
+              height="1254"
+              decoding="async"
+              fetchpriority="high"
+            >
+          </div>
+          <figcaption>
+            <span>Infrastructure operations</span>
+            <span>Newsroom &amp; education environments</span>
+          </figcaption>
+        </figure>
       </div>
-      <p class="fiction-note">A fictional coast. Real work behind it.</p>
-      <div class="coast-signature"><span>THE NIGHT SHIFT</span><span>Est. 2026 &nbsp; · &nbsp; Baku, Azerbaijan</span></div>
-      <div id="game-hud" class="game-hud" hidden>
-        <div class="objective"><span class="chapter" id="chapter-number">01</span><div><p class="eyebrow">Tonight’s little task</p><h2 id="objective-title">Follow the broken light.</h2><p id="objective-detail" hidden></p></div><button id="hint-toggle" type="button" aria-expanded="false" aria-controls="objective-detail" aria-label="Show the current task hint">?</button></div>
-        <p class="location"><span aria-hidden="true">✧</span> <span id="location-name">Lighthouse island</span></p>
-      </div>
-      <p id="game-message" class="game-message" role="status" aria-live="polite"></p>
-      <div class="game-controls" id="game-controls" hidden>
-        <p class="keyboard-guide" id="game-instructions"><kbd>WASD</kbd> / <kbd>↑↓←→</kbd> move <span>·</span> click to walk <span>·</span> <kbd>E</kbd> interact</p>
-        <div class="direction-pad" aria-label="Movement controls"><button type="button" data-move="up" aria-label="Walk up">↑</button><button type="button" data-move="left" aria-label="Walk left">←</button><button type="button" data-move="down" aria-label="Walk down">↓</button><button type="button" data-move="right" aria-label="Walk right">→</button></div>
-        <button class="interaction" id="interact" type="button" hidden><kbd>E</kbd><span id="interaction-label"></span><span aria-hidden="true">↗</span></button>
-        <div class="game-tools"><button id="map-toggle" type="button" aria-pressed="false">View coast</button><button id="pause-game" type="button" aria-pressed="false">Pause</button><button id="help-toggle" type="button">Help</button></div>
-      </div>
-      <p id="pause-label" class="pause-label" hidden>A moment of quiet.<small>The coast can wait.</small></p>
-      <section id="ending" class="ending" aria-labelledby="ending-title" hidden><p class="eyebrow">Thank you for keeping the light.</p><h2 id="ending-title">Morning, kept.</h2><p>Small things, carefully put right.<br>That’s how a whole coast wakes up.</p><div><button id="keep-exploring" class="primary-button" type="button">Stay a little longer</button><a href="#profile">Meet Hikmat ↗</a></div></section>
     </section>
-    <noscript><style>#start-game,#load-status{display:none}</style><p class="no-js-note">The complete portfolio is below. The optional adventure needs JavaScript and WebGL.</p></noscript>
+
+    <section class="section" id="focus" aria-labelledby="focus-title">
+      <div class="container">
+        <div class="section-intro reveal">
+          <p class="section-kicker">Professional focus</p>
+          <h2 id="focus-title">Infrastructure work grounded in evidence</h2>
+        </div>
+
+        <div class="focus-layout">
+          <div class="focus-copy reveal">
+            <p class="lead">
+              I support Windows-centered operations across identity, collaboration services,
+              storage, endpoint deployment and the business workflows that depend on them.
+            </p>
+            <p>
+              My experience spans newsroom and education environments, combining infrastructure
+              administration with hands-on L1/L2 support. I work across service boundaries without
+              overstating ownership: establish the evidence, control the change and verify the result.
+            </p>
+          </div>
+
+          <dl class="working-method reveal">
+            <div>
+              <dt>01 · Establish</dt>
+              <dd>Reproduce the issue and identify affected users, systems and dependencies.</dd>
+            </div>
+            <div>
+              <dt>02 · Isolate</dt>
+              <dd>Compare configuration, logs, permissions and behavior to locate the fault boundary.</dd>
+            </div>
+            <div>
+              <dt>03 · Verify</dt>
+              <dd>Apply the smallest controlled change, retest the original scenario and record the outcome.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="expertise" aria-labelledby="expertise-title">
+      <div class="container">
+        <div class="section-intro reveal">
+          <p class="section-kicker">Core expertise</p>
+          <h2 id="expertise-title">Technical scope</h2>
+          <p>Production technologies and operational capabilities, grouped by infrastructure domain.</p>
+        </div>
+
+        <div class="expertise-grid">
+          <article class="expertise-item reveal">
+            <h3>Windows &amp; Identity</h3>
+            <p>Core Windows services and identity support across user, computer and service accounts.</p>
+            <ul class="tag-list" aria-label="Windows and identity technologies">
+              <li>Windows Server</li>
+              <li>Active Directory</li>
+              <li>Group Policy</li>
+              <li>DNS</li>
+              <li>DHCP</li>
+            </ul>
+          </article>
+
+          <article class="expertise-item reveal">
+            <h3>Microsoft 365</h3>
+            <p>Administration and incident resolution across access, activation, Outlook and mail delivery.</p>
+            <ul class="tag-list" aria-label="Microsoft 365 technologies">
+              <li>Administration</li>
+              <li>Licensing &amp; activation</li>
+              <li>Authentication</li>
+              <li>Synchronization</li>
+              <li>Outlook</li>
+              <li>Mail delivery</li>
+            </ul>
+          </article>
+
+          <article class="expertise-item reveal">
+            <h3>Endpoint Deployment</h3>
+            <p>Standardized Windows endpoint preparation through image-based and network deployment workflows.</p>
+            <ul class="tag-list" aria-label="Endpoint deployment technologies">
+              <li>Windows endpoints</li>
+              <li>Sysprep</li>
+              <li>WDS</li>
+              <li>MDT</li>
+              <li>PXE</li>
+              <li>WinPE</li>
+            </ul>
+          </article>
+
+          <article class="expertise-item reveal">
+            <h3>Storage, Platforms &amp; Diagnostics</h3>
+            <p>OneFS access operations, virtualization support and Linux/network-path fault isolation.</p>
+            <ul class="tag-list" aria-label="Storage, platforms and diagnostics technologies">
+              <li>Dell EMC Isilon / OneFS</li>
+              <li>SMB &amp; ACLs</li>
+              <li>Proxmox</li>
+              <li>VMware ESXi</li>
+              <li>Ubuntu</li>
+              <li>ProFTPD / mod_sftp</li>
+              <li>iperf3</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="container">
+        <div class="section-intro section-intro-wide reveal">
+          <p class="section-kicker">Selected work</p>
+          <h2 id="work-title">Infrastructure case studies</h2>
+          <p>
+            Sanitised examples showing the problem boundary, technical method,
+            controlled decision and verified operational result.
+          </p>
+        </div>
+
+        <div class="project-list">
+          <article class="project reveal">
+            <header class="project-header">
+              <div>
+                <p class="project-type">01 · Storage &amp; access control</p>
+                <h3>OneFS SMB access for protected media folders</h3>
+              </div>
+              <p class="project-stack">OneFS 9.x · SMB · ACLs · Protocol Audit</p>
+            </header>
+            <div class="project-flow">
+              <div>
+                <h4>Challenge</h4>
+                <p>
+                  Provide read, copy and create access in protected folders without allowing users to
+                  modify, delete, rename or change permissions, while keeping other folders fully writable.
+                </p>
+              </div>
+              <div>
+                <h4>Technical work</h4>
+                <ul>
+                  <li>Inspected recursive ownership and ACL data with <code>isi get -DD</code>.</li>
+                  <li>Correlated SMB activity through <code>isi_audit_viewer</code> protocol-audit records.</li>
+                  <li>Normalized owner, group and inherited ACLs through OneFS PermissionRepair.</li>
+                </ul>
+              </div>
+              <div class="project-result">
+                <h4>Outcome</h4>
+                <p>
+                  Existing objects and tested restricted, full-access and administrative paths matched the
+                  intended model. Newly created files continued through the documented owner-repair control
+                  while native ownership behavior remained under evaluation.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <header class="project-header">
+              <div>
+                <p class="project-type">02 · Linux file transfer</p>
+                <h3>ProFTPD SFTP hardening and throughput diagnosis</h3>
+              </div>
+              <p class="project-stack">Ubuntu 24.04 · ProFTPD / mod_sftp · iperf3</p>
+            </header>
+            <div class="project-flow">
+              <div>
+                <h4>Challenge</h4>
+                <p>
+                  Daytime SFTP throughput fell to roughly 1.5–3 Mbit/s but reached 90–97 Mbit/s in the
+                  evening. The task was to distinguish service configuration from network-path behavior.
+                </p>
+              </div>
+              <div>
+                <h4>Technical work</h4>
+                <ul>
+                  <li>Validated host keys, chroot boundaries, setgid directories, permissions and <code>Umask 007</code>.</li>
+                  <li>Disabled the OpenSSH SFTP subsystem so ProFTPD handled SFTP exclusively.</li>
+                  <li>Compared transfer ports, time windows, iperf3 throughput and RDP behavior.</li>
+                </ul>
+              </div>
+              <div class="project-result">
+                <h4>Outcome</h4>
+                <p>
+                  Authentication, uploads and chroot isolation passed validation. Matching daytime degradation
+                  in iperf3 and RDP moved the next investigation step to the network path, QoS and provider track.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <header class="project-header">
+              <div>
+                <p class="project-type">03 · Endpoint management</p>
+                <h3>Remote Access Plus HTTPS hardening and GPO pilot</h3>
+              </div>
+              <p class="project-stack">Active Directory · HTTPS/TLS · GPO · SYSVOL</p>
+            </header>
+            <div class="project-flow">
+              <div>
+                <h4>Challenge</h4>
+                <p>
+                  Prepare a secure management path and verify the deployment controls required before expanding
+                  an endpoint-agent rollout beyond the pilot computer.
+                </p>
+              </div>
+              <div>
+                <h4>Technical work</h4>
+                <ul>
+                  <li>Moved web administration to HTTPS 443 and closed the previous management port.</li>
+                  <li>Verified certificate trust from a domain workstation.</li>
+                  <li>Confirmed startup-GPO targeting and package availability in SYSVOL.</li>
+                </ul>
+              </div>
+              <div class="project-result">
+                <h4>Outcome</h4>
+                <p>
+                  HTTPS, certificate trust and pilot GPO controls passed validation. Wider deployment stayed
+                  behind an intentional quality gate until the vendor <code>setup.bat</code> met unattended-install requirements.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="incident-section">
+          <div class="subsection-heading reveal">
+            <p class="section-kicker">Operational incident notes</p>
+            <h3>Focused fault isolation</h3>
+          </div>
+          <div class="incident-grid">
+            <article class="incident reveal">
+              <p class="incident-meta">Windows · SMB · Credential Manager</p>
+              <h3>Credential state isolated from storage permissions</h3>
+              <p>
+                <code>Get-SmbConnection</code> exposed the account actually used by the SMB client. Removing only
+                the matching <code>cmdkey</code> target restored the credential prompt and separated the incident
+                from OneFS access controls.
+              </p>
+            </article>
+            <article class="incident reveal">
+              <p class="incident-meta">HP MFP · Microsoft 365 · SMTP</p>
+              <h3>Scan-to-email traced to DNS resolution</h3>
+              <p>
+                Comparison of two identical HP LaserJet Enterprise MFP M528 devices showed that the affected
+                device had no DNS server configured. Restoring hostname resolution returned mail delivery to its
+                separate validation step without misattributing the issue to Microsoft 365 authentication.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="experience" aria-labelledby="experience-title">
+      <div class="container">
+        <div class="section-intro reveal">
+          <p class="section-kicker">Experience</p>
+          <h2 id="experience-title">Professional history</h2>
+        </div>
+
+        <div class="experience-list">
+          <article class="experience-item reveal">
+            <div class="experience-meta">
+              <time datetime="2024-05">May 2024 — Present</time>
+              <p>AZERTAC News Agency</p>
+            </div>
+            <div class="experience-content">
+              <h3>Information Technology Infrastructure Specialist</h3>
+              <ul>
+                <li>Administer Active Directory user, computer and service accounts and group membership; troubleshoot Group Policy, DNS, DHCP, identity and access incidents.</li>
+                <li>Administer Microsoft 365 and resolve licensing, activation, Outlook profile, authentication, synchronization, file association, add-in and mail-delivery incidents.</li>
+                <li>Reworked group-based OneFS SMB access by normalizing ACLs and ownership, validating restricted and full-access paths, and formalizing the owner-repair control for newly created files.</li>
+                <li>Support Windows deployment with WDS, MDT, PXE and WinPE, including boot images, task sequences and client-side troubleshooting.</li>
+                <li>Hardened ProFTPD / mod_sftp on Ubuntu and used iperf3 and cross-service comparison to move a time-dependent throughput investigation to the network-path, QoS and provider track.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="experience-item reveal">
+            <div class="experience-meta">
+              <time datetime="2022-10">October 2022 — May 2024</time>
+              <p>STEP IT Academy Azerbaijan</p>
+            </div>
+            <div class="experience-content">
+              <h3>Information Technology Specialist</h3>
+              <ul>
+                <li>Provided on-site support across classrooms, computer labs and offices for Windows endpoints, peripherals, printing and routine LAN incidents.</li>
+                <li>Deployed software, maintained standard Windows images for student PCs, prepared endpoints, and supported user onboarding and day-to-day technical guidance.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="experience-item reveal">
+            <div class="experience-meta">
+              <time datetime="2021-06">June 2021 — October 2022</time>
+              <p>AZERTAC News Agency</p>
+            </div>
+            <div class="experience-content">
+              <h3>Information Technology Infrastructure Specialist</h3>
+              <ul>
+                <li>Supported day-to-day IT infrastructure operations, endpoint provisioning and L1/L2 troubleshooting across hardware, software, peripherals and connectivity.</li>
+                <li>Supported Proxmox and VMware ESXi environments, Dell EMC Isilon storage and Hikvision NVR systems.</li>
+                <li>Deployed and supported UVDesk, OpenVPN, Nextcloud, Zabbix and Wazuh; prepared Windows 10 endpoints from a standardized Sysprep image.</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="background" aria-labelledby="background-title">
+      <div class="container">
+        <div class="section-intro reveal">
+          <p class="section-kicker">Background</p>
+          <h2 id="background-title">Education, training &amp; languages</h2>
+        </div>
+
+        <div class="background-grid">
+          <article class="background-item reveal">
+            <p class="background-type">Bachelor's Degree · 2018—2022</p>
+            <h3>Azerbaijan Technical University</h3>
+            <p>Organization and Management of Industry</p>
+          </article>
+
+          <article class="background-item reveal">
+            <p class="background-type">Diploma · 2018—2021</p>
+            <h3>STEP IT Academy Azerbaijan</h3>
+            <p>Networks and Information Security</p>
+          </article>
+
+          <article class="background-item background-item-wide reveal">
+            <p class="background-type">Technical Coursework</p>
+            <h3>Cisco Networking Academy</h3>
+            <p>CCNA Routing and Switching curriculum · CCNA Security curriculum · Cybersecurity Essentials</p>
+            <p class="background-secondary">IT Essentials: PC Hardware and Software · NDG Linux Essentials</p>
+          </article>
+        </div>
+
+        <section class="language-panel reveal" aria-labelledby="languages-title">
+          <h3 id="languages-title">Languages</h3>
+          <dl class="language-list">
+            <div><dt>Azerbaijani</dt><dd>Native</dd></div>
+            <div><dt>Russian</dt><dd>Native</dd></div>
+            <div><dt>Turkish</dt><dd>Professional Working</dd></div>
+            <div><dt>English</dt><dd>Intermediate (B1)</dd></div>
+          </dl>
+        </section>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact-heading reveal">
+          <p class="section-kicker">Contact</p>
+          <h2 id="contact-title">Discuss an infrastructure role</h2>
+          <p>
+            Open to Windows Systems Administrator, IT Infrastructure Specialist and
+            L2 IT Operations Support opportunities.
+          </p>
+        </div>
+
+        <div class="contact-layout">
+          <aside class="contact-details reveal" aria-label="Direct contact details">
+            <dl>
+              <div>
+                <dt>Email</dt>
+                <dd><a href="mailto:hikmet2000.hg@gmail.com">hikmet2000.hg@gmail.com</a></dd>
+              </div>
+              <div>
+                <dt>Phone</dt>
+                <dd><a href="tel:+994554387647">+994&nbsp;55&nbsp;438&nbsp;76&nbsp;47</a></dd>
+              </div>
+              <div>
+                <dt>LinkedIn</dt>
+                <dd><a href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener noreferrer">linkedin.com/in/hmoff1711</a></dd>
+              </div>
+              <div>
+                <dt>GitHub</dt>
+                <dd><a href="https://github.com/hmoff1711" target="_blank" rel="noopener noreferrer">github.com/hmoff1711</a></dd>
+              </div>
+              <div>
+                <dt>WhatsApp</dt>
+                <dd><a href="https://wa.me/994554387647" target="_blank" rel="noopener noreferrer">Open conversation</a></dd>
+              </div>
+            </dl>
+            <div class="contact-actions">
+              <a class="button button-light" href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download resume</a>
+              <a class="button button-ghost-light" href="cv/hikmat.vcf" download>Download vCard</a>
+            </div>
+          </aside>
+
+          <form class="contact-form reveal" action="https://airform.io/hikmet2000.hg@gmail.com" method="post" accept-charset="UTF-8">
+            <div class="field-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" maxlength="100" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="6" maxlength="3000" required></textarea>
+            </div>
+            <div class="form-footer">
+              <button class="button button-light" type="submit" data-default-label="Send message">Send message</button>
+              <p>Messages are processed by Airform, an external form service.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
-  <dialog id="help-dialog" class="help-dialog" aria-labelledby="help-title">
-    <button id="close-help" class="close-help" type="button" aria-label="Close help">×</button><p class="eyebrow">A few things for your pocket</p><h2 id="help-title">Make yourself at home.</h2>
-    <p>Walk with <kbd>WASD</kbd> or the arrow keys. You can also click or tap the ground. On a phone, hold the direction buttons.</p><p>Get close to an object, then press <kbd>E</kbd> or its action button. Turn the reflectors, push the weight along its rail, and carry the lens home. There’s no timer.</p><p>Your progress stays in this browser. The journal, Resume and contacts are always available in the top menu.</p>
-    <div class="help-options"><button id="sound-toggle" type="button" aria-pressed="false">Sound off</button><button id="quality-toggle" type="button" aria-pressed="false">Detail: full</button><button id="return-pier" type="button">Return to the landing</button><button id="restart-game" type="button">Start a new night</button></div>
-    <p class="help-footnote">The adventure is fiction. Professional experience and case notes are in the journal.</p>
-  </dialog>
-  <aside id="portfolio-panel" class="portfolio-panel" aria-labelledby="portfolio-title">
-    <header class="journal-header">
-      <div><p class="journal-kicker">The person behind the night shift</p><h2 id="portfolio-title">Hikmat’s field journal</h2></div>
-      <button id="portfolio-close" class="journal-close" type="button" aria-label="Close journal and return to the world">×</button>
-    </header>
-    <nav class="journal-nav" aria-label="Professional portfolio">
-      <a href="#profile">Profile</a><a href="#expertise">Expertise</a><a href="#work">Case notes</a><a href="#experience">Experience</a><a href="#background">Background</a><a href="#contact">Contact</a>
-    </nav>
 
-    <section id="profile" class="journal-section" data-journal-section aria-labelledby="profile-title">
-      <p class="journal-kicker">01 / Meet your guide</p>
-      <h2 id="profile-title">Hello. I’m Hikmat.</h2>
-      <div id="focus" class="journal-intro">
-        <img class="journal-portrait" src="images/anthony.jpg" alt="Portrait of Hikmat Mahammadov" width="1254" height="1254" loading="lazy" decoding="async">
-        <p class="journal-lead">IT Infrastructure Specialist.<br>Windows Systems Administration.</p>
-        <p>I work across Windows systems, identity, collaboration, storage and endpoint deployment. More than five years in newsroom and education environments have shaped how I approach infrastructure and hands-on L1/L2 incident resolution.</p>
-      </div>
-      <h3 id="focus-title">Evidence before intervention.</h3>
-      <p>Establish what happens. Isolate why. Make a controlled change. Verify the result. That’s the practical thread connecting my work, from a saved credential on one workstation to access control on shared storage.</p>
-      <p class="journal-location">Baku, Azerbaijan<br>Open to employer-sponsored relocation.</p>
-      <div class="journal-links"><a href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download Resume ↓</a><a href="#experience">Employment history →</a><a href="#contact">Let’s talk →</a></div>
-      <aside class="journal-note"><strong>Behind the story</strong><p>The night-shift world is a fictional adventure. The professional work in this journal is real, with its original verification boundaries intact.</p></aside>
-    </section>
-
-    <section id="expertise" class="journal-section" data-journal-section aria-labelledby="expertise-title">
-      <p class="journal-kicker">02 / What I work with</p>
-      <h2 id="expertise-title">A practical toolkit.</h2>
-      <p>Documented practice, with the foundations that support it. Open a subject for the details.</p>
-      <details id="layer-identity">
-        <summary><span class="journal-summary-title">Identity &amp; Windows systems</span><span class="journal-summary-meta">Windows Server · Active Directory · Group Policy · DNS / DHCP</span></summary>
-        <div class="journal-detail-body">
-          <p>Administration of Active Directory user, computer and service accounts, group membership, and troubleshooting of Group Policy, DNS, DHCP, identity and access incidents. Inspection of the credentials that an SMB client actually presents.</p>
-          <p class="journal-foundations"><strong>Supporting foundations:</strong> Kerberos, LDAP, authentication versus authorization, security groups, policy scope and effective access. These support the documented Active Directory work.</p>
-          <p><a href="#case-smb">Read the SMB credential incident →</a></p>
-        </div>
-      </details>
-      <details id="layer-storage">
-        <summary><span class="journal-summary-title">Storage &amp; permissions</span><span class="journal-summary-meta">Dell EMC Isilon · OneFS 9.x · SMB / ACLs · PermissionRepair</span></summary>
-        <div class="journal-detail-body">
-          <p>OneFS access operations: inspect effective behavior and Protocol Audit records, normalize ownership and inherited ACLs, and validate restricted, full-access and administrative paths.</p>
-          <p class="journal-foundations"><strong>Supporting foundations:</strong> share access, object permissions, group membership, ownership, explicit versus inherited ACEs, effective permissions, repair scope and rollback planning.</p>
-          <p><a href="#case-onefs">Read the OneFS ownership case →</a></p>
-        </div>
-      </details>
-      <details id="layer-networks">
-        <summary><span class="journal-summary-title">Networks &amp; Linux</span><span class="journal-summary-meta">Ubuntu 24.04 · ProFTPD / mod_sftp · iperf3 · OpenVPN</span></summary>
-        <div class="journal-detail-body">
-          <p>Linux service hardening and fault isolation across a host and its network path. Practical work with SFTP host keys, chroot boundaries, setgid directories and file permissions; comparison of time windows, transfer ports and independent services before assigning a cause.</p>
-          <p class="journal-foundations"><strong>Coursework foundations:</strong> CCNA Routing and Switching / Security supports TCP/IP, IPv4/IPv6, subnetting, VLANs, trunking, STP, routing, switching, NAT, ACLs, ARP and ICMP. NDG Linux Essentials supports shell navigation and file permissions. These are coursework foundations; practical work is documented separately in the cases.</p>
-          <p><a href="#case-sftp">Read the SFTP investigation →</a></p>
-        </div>
-      </details>
-      <details id="layer-endpoints">
-        <summary><span class="journal-summary-title">Endpoints &amp; deployment</span><span class="journal-summary-meta">WDS / MDT · PXE / WinPE · Sysprep · GPO / SYSVOL</span></summary>
-        <div class="journal-detail-body">
-          <p>Standardized Windows preparation, image-based deployment, boot images, task sequences and client-side troubleshooting. Verification of certificate trust, deployment targeting and unattended installation before expanding a rollout.</p>
-          <p class="journal-foundations"><strong>Supporting foundations:</strong> image generalization, boot dependencies, startup-script execution context and unattended-install validation. Documented scripting work includes PowerShell-based SMB diagnostics and evaluating vendor batch installation behavior.</p>
-          <p><a href="#case-rollout">Read the deployment quality gate →</a></p>
-        </div>
-      </details>
-      <details id="layer-platforms">
-        <summary><span class="journal-summary-title">Platforms &amp; everyday operations</span><span class="journal-summary-meta">Microsoft 365 · Proxmox / VMware ESXi · L1/L2 support</span></summary>
-        <div class="journal-detail-body">
-          <p>Microsoft 365 administration and incidents involving licensing, activation, Outlook profiles, authentication, synchronization, file associations, add-ins and mail delivery. Hands-on support for Windows endpoints, peripherals, printing and connectivity.</p>
-          <p>Virtualization and storage support with Proxmox, VMware ESXi and Dell EMC Isilon; service deployment and support with UVDesk, OpenVPN, Nextcloud, Zabbix and Wazuh; Hikvision NVR support.</p>
-          <p class="journal-foundations"><strong>Supporting foundations:</strong> VM lifecycle, guest operating systems, virtual networking and storage dependencies.</p>
-          <p><a href="#case-dns">Read the MFP DNS incident →</a></p>
-        </div>
-      </details>
-    </section>
-
-    <section id="work" class="journal-section" data-journal-section aria-labelledby="work-title">
-      <p class="journal-kicker">03 / From the real world</p>
-      <h2 id="work-title">Five case notes.</h2>
-      <p>Real infrastructure work, presented without production identifiers. Each note records the intervention, the evidence and what remained open.</p>
-      <details id="case-onefs" class="journal-case">
-        <summary><span class="journal-case-index"><span class="journal-case-number">01</span><span class="journal-summary-title" id="case-onefs-title">Who owns the file?</span></span><span class="journal-summary-meta">Dell EMC Isilon · OneFS 9.x · SMB · ACLs · Protocol Audit</span></summary>
-        <div class="journal-detail-body">
-          <h3 id="onefs-observe">Create without destroying.</h3>
-          <p>The access model called for read, copy and create access in protected media folders, without modify, delete, rename or permission changes. Other folders needed to remain fully writable.</p>
-          <h4 id="onefs-isolate">The work</h4>
-          <ul><li>Inspected recursive ownership and ACL data with <code>isi get -DD</code>.</li><li>Correlated SMB activity using <code>isi_audit_viewer</code> protocol-audit records.</li><li>Normalized owner, group and inherited ACLs through OneFS PermissionRepair.</li></ul>
-          <h4 id="onefs-verify">What was verified</h4>
-          <p>Existing objects and tested restricted, full-access and administrative paths matched the intended access model.</p>
-          <aside class="journal-note"><strong>Open boundary · native ownership</strong><p>Newly created files continued through the documented owner-repair control while native ownership behavior remained under evaluation. This case does not claim that native ownership was solved.</p></aside>
-        </div>
-      </details>
-      <details id="case-sftp" class="journal-case">
-        <summary><span class="journal-case-index"><span class="journal-case-number">02</span><span class="journal-summary-title" id="case-sftp-title">Same service. Different speed.</span></span><span class="journal-summary-meta">Ubuntu 24.04 · ProFTPD / mod_sftp · iperf3 · RDP</span></summary>
-        <div class="journal-detail-body">
-          <h3 id="sftp-observe">A symptom that followed the clock.</h3>
-          <p>Daytime SFTP throughput fell to roughly 1.5–3 Mbit/s but reached 90–97 Mbit/s in the evening. The task was to distinguish service configuration from network-path behavior.</p>
-          <h4 id="sftp-isolate">The work</h4>
-          <ul><li>Validated host keys, chroot boundaries, setgid directories, permissions and <code>Umask 007</code>.</li><li>Disabled the OpenSSH SFTP subsystem so ProFTPD handled SFTP exclusively.</li><li>Compared transfer ports, time windows, <code>iperf3</code> throughput and RDP behavior.</li></ul>
-          <h4 id="sftp-verify">What was verified</h4>
-          <p>Authentication, uploads and chroot isolation passed validation. Matching daytime degradation in iperf3 and RDP moved the next investigation step to the network path, QoS and provider track.</p>
-          <aside class="journal-note"><strong>Open boundary · throughput</strong><p>The reported speeds describe different time windows. They are not an improvement attributed to the hardening work. The throughput root cause was not closed.</p></aside>
-        </div>
-      </details>
-      <details id="case-rollout" class="journal-case">
-        <summary><span class="journal-case-index"><span class="journal-case-number">03</span><span class="journal-summary-title" id="case-rollout-title">Knowing when to stop.</span></span><span class="journal-summary-meta">Remote Access Plus · Active Directory · HTTPS/TLS · GPO · SYSVOL</span></summary>
-        <div class="journal-detail-body">
-          <h3 id="rollout-observe">Secure the management path first.</h3>
-          <p>Prepare a secure Remote Access Plus management path and verify the controls required before expanding an endpoint-agent rollout beyond the pilot computer.</p>
-          <h4 id="rollout-isolate">The work</h4>
-          <ul><li>Moved web administration to HTTPS 443 and closed the previous management port.</li><li>Verified certificate trust from a domain workstation.</li><li>Confirmed startup-GPO targeting and package availability in SYSVOL.</li></ul>
-          <h4 id="rollout-verify">What was verified</h4>
-          <p>HTTPS, certificate trust and pilot GPO controls passed validation. Wider deployment stayed behind an intentional quality gate until the vendor <code>setup.bat</code> met unattended-install requirements.</p>
-          <aside class="journal-note"><strong>Open boundary · wider rollout</strong><p>The wider rollout remained on hold behind the unattended-install quality gate. Secure management and pilot controls were verified; a completed deployment is not claimed.</p></aside>
-        </div>
-      </details>
-      <details id="case-smb" class="journal-case">
-        <summary><span class="journal-case-index"><span class="journal-case-number">04</span><span class="journal-summary-title" id="case-smb-title">The account beneath the session.</span></span><span class="journal-summary-meta">Windows · SMB · Credential Manager · OneFS</span></summary>
-        <div class="journal-detail-body">
-          <h3 id="smb-observe">Which identity is the client using?</h3>
-          <p>An SMB access incident needed to be separated from OneFS access controls. The useful starting point was the identity in the active SMB connection.</p>
-          <h4 id="smb-isolate">The work</h4>
-          <p><code>Get-SmbConnection</code> exposed the account actually used by the SMB client. The intervention was limited to the matching <code>cmdkey</code> target in the saved credential state.</p>
-          <h4 id="smb-verify">What was verified</h4>
-          <p>Removing only the matching saved credential restored the credential prompt and separated the incident from OneFS access controls.</p>
-          <aside class="journal-note"><strong>Scope of change</strong><p>One matching credential target. The observed result was a restored prompt; the incident was isolated from storage ACL behavior.</p></aside>
-        </div>
-      </details>
-      <details id="case-dns" class="journal-case">
-        <summary><span class="journal-case-index"><span class="journal-case-number">05</span><span class="journal-summary-title" id="case-dns-title">Before mail, a name.</span></span><span class="journal-summary-meta">HP LaserJet Enterprise MFP M528 · DNS · Microsoft 365 · SMTP</span></summary>
-        <div class="journal-detail-body">
-          <h3 id="dns-observe">Begin with the identical device.</h3>
-          <p>A scan-to-email incident on an HP LaserJet Enterprise MFP M528 was investigated by comparing two identical devices before attributing the issue to Microsoft 365 authentication.</p>
-          <h4 id="dns-isolate">The work</h4>
-          <p>The affected device had no DNS server configured. The comparison identified hostname resolution as the fault boundary to address.</p>
-          <h4 id="dns-verify">What was verified</h4>
-          <p>Hostname resolution was restored. Mail delivery returned to its separate validation step without misattributing the issue to Microsoft 365 authentication.</p>
-          <aside class="journal-note"><strong>Open boundary · mail delivery</strong><p>A DNS recovery is not evidence of completed mail delivery. SMTP and delivery require their own validation.</p></aside>
-        </div>
-      </details>
-    </section>
-
-    <section id="experience" class="journal-section" data-journal-section aria-labelledby="experience-title">
-      <p class="journal-kicker">04 / The working years</p>
-      <h2 id="experience-title">Built in live environments.</h2>
-      <p>Newsroom infrastructure, classroom endpoints and the everyday incidents that connect systems to people.</p>
-      <ol class="journal-career">
-        <li><p class="journal-date"><time datetime="2024-05">May 2024</time> — Present</p><h3>AZERTAC News Agency</h3><p class="journal-job-title">Information Technology Infrastructure Specialist</p><ul><li>Administer Active Directory user, computer and service accounts and group membership; troubleshoot Group Policy, DNS, DHCP, identity and access incidents.</li><li>Administer Microsoft 365 and resolve licensing, activation, Outlook profile, authentication, synchronization, file association, add-in and mail-delivery incidents.</li><li>Reworked group-based OneFS SMB access by normalizing ACLs and ownership and validating restricted, full-access and administrative paths. Documented the remaining new-file ownership limitation and interim owner-repair control.</li><li>Support Windows deployment with WDS, MDT, PXE and WinPE, including boot images, task sequences and client-side troubleshooting.</li><li>Hardened ProFTPD / mod_sftp on Ubuntu and investigated time-dependent SFTP degradation using iperf3 and cross-service comparison. Evidence moved the next investigation step to the network path, QoS and provider.</li></ul></li>
-        <li><p class="journal-date"><time datetime="2022-10">October 2022</time> — <time datetime="2024-05">May 2024</time></p><h3>STEP IT Academy Azerbaijan</h3><p class="journal-job-title">Information Technology Specialist</p><ul><li>Provided on-site support across classrooms, computer labs and offices for Windows endpoints, peripherals, printing and routine LAN incidents.</li><li>Deployed software, maintained standard Windows images for student PCs, prepared endpoints, and supported user onboarding and day-to-day technical guidance.</li></ul></li>
-        <li><p class="journal-date"><time datetime="2021-06">June 2021</time> — <time datetime="2022-10">October 2022</time></p><h3>AZERTAC News Agency</h3><p class="journal-job-title">Information Technology Infrastructure Specialist</p><ul><li>Supported day-to-day IT infrastructure operations, endpoint provisioning and L1/L2 troubleshooting across hardware, software, peripherals and connectivity.</li><li>Supported Proxmox and VMware ESXi environments, Dell EMC Isilon storage and Hikvision NVR systems.</li><li>Deployed and supported UVDesk, OpenVPN, Nextcloud, Zabbix and Wazuh; prepared Windows 10 endpoints from a standardized Sysprep image.</li></ul></li>
-      </ol>
-      <div class="journal-links"><a href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download the full Resume ↓</a><a href="#work">Explore the case notes →</a></div>
-    </section>
-
-    <section id="background" class="journal-section" data-journal-section aria-labelledby="background-title">
-      <p class="journal-kicker">05 / Foundations</p>
-      <h2 id="background-title">Learning &amp; perspective.</h2>
-      <h3>Education</h3>
-      <dl class="journal-definitions"><div><dt>Azerbaijan Technical University</dt><dd>Bachelor’s Degree · 2018–2022<br>Organization and Management of Industry</dd></div><div><dt>STEP IT Academy Azerbaijan</dt><dd>Diploma · 2018–2021<br>Networks and Information Security</dd></div></dl>
-      <h3>Technical coursework</h3>
-      <p>Cisco Networking Academy</p>
-      <ul><li>CCNA Routing and Switching curriculum</li><li>CCNA Security curriculum</li><li>Cybersecurity Essentials</li><li>IT Essentials: PC Hardware and Software</li><li>NDG Linux Essentials</li></ul>
-      <p class="journal-foundations">Listed as coursework, not professional certification.</p>
-      <h3 id="languages-title">Languages</h3>
-      <dl class="journal-definitions journal-languages"><div><dt>Azerbaijani</dt><dd>Native</dd></div><div><dt>Russian</dt><dd>Native</dd></div><div><dt>Turkish</dt><dd>Professional Working</dd></div><div><dt>English</dt><dd>Intermediate (B1)</dd></div></dl>
-    </section>
-
-    <section id="contact" class="journal-section" data-journal-section aria-labelledby="contact-title">
-      <p class="journal-kicker">06 / The next chapter</p>
-      <h2 id="contact-title">Let’s make things work.</h2>
-      <p class="journal-lead">An infrastructure challenge, a team to strengthen, or a role worth talking about?</p>
-      <address class="journal-contact-address"><a class="journal-email" href="mailto:hikmet2000.hg@gmail.com">hikmet2000.hg@gmail.com</a><a href="tel:+994554387647">+994 55 438 76 47</a></address>
-      <div class="journal-links"><a href="https://www.linkedin.com/in/hmoff1711/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="https://github.com/hmoff1711" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://wa.me/994554387647" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></div>
-      <p>Baku, Azerbaijan. Open to Windows Systems Administrator, IT Infrastructure Specialist and L2 IT Operations Support opportunities. Open to employer-sponsored relocation.</p>
-      <div class="journal-links"><a href="cv/Hikmat_Mahammadov_Resume.pdf" download>Download Resume ↓</a><a href="cv/hikmat.vcf" download>Save contact · vCard ↓</a></div>
-      <form class="journal-form" action="https://airform.io/hikmet2000.hg@gmail.com" method="post" accept-charset="UTF-8">
-        <h3>Leave a message</h3>
-        <div class="journal-field"><label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" maxlength="100" required></div>
-        <div class="journal-field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required></div>
-        <div class="journal-field"><label for="message">What do you have in mind?</label><textarea id="message" name="message" rows="5" maxlength="3000" required></textarea></div>
-        <button type="submit">Send message ↗</button>
-        <p class="journal-form-disclosure">Messages are processed by Airform, an external form service. Prefer your own mail app? <a href="mailto:hikmet2000.hg@gmail.com">Email me directly.</a></p>
-      </form>
-    </section>
-    <footer class="journal-footer">Hikmat Mahammadov · IT Infrastructure Specialist · Baku</footer>
-  </aside>
-
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="current-year">2026</span> Hikmat Mahammadov</p>
+      <a href="#top">Back to top</a>
+    </div>
+  </footer>
 </body>
 </html>
