@@ -33,7 +33,6 @@
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/dossier.css">
-  <link rel="stylesheet" href="css/journey.css">
 
   <script src="js/dossier.js" defer></script>
   <script src="js/main.js" defer></script>
@@ -91,7 +90,7 @@
         <p class="eyebrow">A small adventure about keeping things running</p>
         <h1 id="hero-title">The<br><em>night shift.</em></h1>
         <p class="intro-story">An island asleep. A lighthouse without its light.<br>One last shift before the morning.</p>
-        <div class="intro-actions"><button class="primary-button" id="start-game" type="button" disabled>Preparing the coast… <span aria-hidden="true">→</span></button><button class="journey-entry" id="journey-entry" type="button" disabled>Explore beyond the coast <span aria-hidden="true">↗</span></button><a href="#profile">Meet the person behind it <span aria-hidden="true">↗</span></a></div>
+        <div class="intro-actions"><button class="primary-button" id="start-game" type="button" disabled>Preparing the coast… <span aria-hidden="true">→</span></button><a href="#profile">Meet the person behind it <span aria-hidden="true">↗</span></a></div>
         <p class="load-status" id="load-status" role="status">The keeper is getting ready.</p>
         <a id="fallback-link" href="#profile" class="primary-button" hidden>Open the portfolio →</a>
       </div>
@@ -106,31 +105,13 @@
         <p class="keyboard-guide" id="game-instructions"><kbd>WASD</kbd> / <kbd>↑↓←→</kbd> move <span>·</span> click to walk <span>·</span> <kbd>E</kbd> interact</p>
         <div class="direction-pad" aria-label="Movement controls"><button type="button" data-move="up" aria-label="Walk up">↑</button><button type="button" data-move="left" aria-label="Walk left">←</button><button type="button" data-move="down" aria-label="Walk down">↓</button><button type="button" data-move="right" aria-label="Walk right">→</button></div>
         <button class="interaction" id="interact" type="button" hidden><kbd>E</kbd><span id="interaction-label"></span><span aria-hidden="true">↗</span></button>
-        <div class="game-tools"><button id="map-toggle" type="button" aria-pressed="false">View coast</button><button id="journey-map-toggle" type="button">Worlds &amp; discoveries</button><button id="pause-game" type="button" aria-pressed="false">Pause</button><button id="help-toggle" type="button">Help</button></div>
-      </div>
-      <div id="journey-hud" class="journey-hud" hidden>
-        <div class="journey-objective">
-          <div><p class="eyebrow" id="journey-location">Beyond the coast</p><h2 id="journey-objective">Follow a little curiosity.</h2><p id="journey-hint" hidden></p></div>
-          <button id="journey-hint-toggle" type="button" aria-expanded="false" aria-controls="journey-hint" aria-label="Show the current exploration hint">?</button>
-        </div>
-        <div id="journey-era" class="journey-era" role="group" aria-label="Choose the island's time" hidden><button type="button" data-era="0" aria-pressed="false">Yesterday</button><button type="button" data-era="1" aria-pressed="true">Today</button></div>
-      </div>
-      <div id="journey-controls" class="journey-controls" hidden>
-        <p class="keyboard-guide" id="journey-instructions"><kbd>WASD</kbd> / <kbd>↑↓←→</kbd> move <span>·</span> click to walk <span>·</span> <kbd>E</kbd> discover</p>
-        <div class="direction-pad" role="group" aria-label="Exploration movement controls"><button type="button" data-journey-move="up" aria-label="Walk up">↑</button><button type="button" data-journey-move="left" aria-label="Walk left">←</button><button type="button" data-journey-move="down" aria-label="Walk down">↓</button><button type="button" data-journey-move="right" aria-label="Walk right">→</button></div>
-        <button class="interaction" id="journey-interact" type="button" hidden><kbd>E</kbd><span id="journey-action-label">Discover</span><span aria-hidden="true">↗</span></button>
-        <div class="game-tools"><button id="journey-atlas" type="button">Worlds &amp; discoveries</button><button id="journey-pause" type="button" aria-pressed="false">Pause</button><button id="journey-home" type="button">Return to coast</button></div>
+        <div class="game-tools"><button id="map-toggle" type="button" aria-pressed="false">View coast</button><button id="pause-game" type="button" aria-pressed="false">Pause</button><button id="help-toggle" type="button">Help</button></div>
       </div>
       <p id="pause-label" class="pause-label" hidden>A moment of quiet.<small>The coast can wait.</small></p>
       <section id="ending" class="ending" aria-labelledby="ending-title" hidden><p class="eyebrow">Thank you for keeping the light.</p><h2 id="ending-title">Morning, kept.</h2><p>Small things, carefully put right.<br>That’s how a whole coast wakes up.</p><div><button id="keep-exploring" class="primary-button" type="button">Stay a little longer</button><a href="#profile">Meet Hikmat ↗</a></div></section>
     </section>
-    <noscript><style>#start-game,#load-status,#journey-entry,#journey-map-toggle{display:none}</style><p class="no-js-note">The complete portfolio is below. The optional adventure needs JavaScript and WebGL.</p></noscript>
+    <noscript><style>#start-game,#load-status{display:none}</style><p class="no-js-note">The complete portfolio is below. The optional adventure needs JavaScript and WebGL.</p></noscript>
   </main>
-  <dialog id="journey-dialog" class="journey-dialog" aria-labelledby="journey-title">
-    <header class="journey-header"><p class="eyebrow">AFTERLIGHT · An atlas for curious nights</p><button id="journey-close" class="journey-close" type="button" aria-label="Close the atlas and return to the world">×</button></header>
-    <div class="journey-heading"><h2 id="journey-title">Worlds &amp; discoveries</h2></div>
-    <div id="journey-content"></div>
-  </dialog>
   <dialog id="help-dialog" class="help-dialog" aria-labelledby="help-title">
     <button id="close-help" class="close-help" type="button" aria-label="Close help">×</button><p class="eyebrow">A few things for your pocket</p><h2 id="help-title">Make yourself at home.</h2>
     <p>Walk with <kbd>WASD</kbd> or the arrow keys. You can also click or tap the ground. On a phone, hold the direction buttons.</p><p>Get close to an object, then press <kbd>E</kbd> or its action button. Turn the reflectors, push the weight along its rail, and carry the lens home. There’s no timer.</p><p>Your progress stays in this browser. The journal, Resume and contacts are always available in the top menu.</p>
